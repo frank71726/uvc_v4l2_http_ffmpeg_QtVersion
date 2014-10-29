@@ -14,8 +14,8 @@ public:
     explicit video_device(QString dev_name);
     int get_frame(unsigned char **yuv_buffer_pointer, size_t *len);
     int unget_frame();
-    int yuyv_2_rgb888(const void *p, int size, unsigned char *frame_buffer);
-
+//    int yuyv_2_rgb888(const void *p, int size, unsigned char *frame_buffer);
+    ~video_device();
 private:
     int camera_v4l2_setting(int *dev, unsigned int width, unsigned int height, unsigned int pixelformat, const char *camera_dev, int nbufs, void **mem0);
     int video_open(const char *devname);
@@ -31,14 +31,11 @@ private:
     unsigned int image_hight;
     unsigned int pixelformat;
     unsigned int nbufs;
-    int ssss;
+    unsigned int buf_byteused;
     void *mem0[V4L_BUFFERS_MAX];
-
     char *dev_name;
-    int fd;//video0 file
     int index;
-
-
+    int dev;
 
 signals:
 
