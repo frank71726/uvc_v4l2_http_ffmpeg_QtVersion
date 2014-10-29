@@ -15,10 +15,10 @@ CXX           = g++
 DEFINES       = -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIE $(DEFINES)
 CXXFLAGS      = -pipe -g -Wall -W -D_REENTRANT -fPIE $(DEFINES)
-INCPATH       = -I../../Qt/5.3/gcc_64/mkspecs/linux-g++ -I. -I../../Qt/5.3/gcc_64/include -I../../Qt/5.3/gcc_64/include/QtWidgets -I../../Qt/5.3/gcc_64/include/QtGui -I../../Qt/5.3/gcc_64/include/QtCore -I. -I.
+INCPATH       = -I../../Qt/5.3/gcc_64/mkspecs/linux-g++ -I. -I/usr/local/include -I../../Qt/5.3/gcc_64/include -I../../Qt/5.3/gcc_64/include/QtWidgets -I../../Qt/5.3/gcc_64/include/QtGui -I../../Qt/5.3/gcc_64/include/QtCore -I. -I.
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/frank/Qt/5.3/gcc_64 -Wl,-rpath,/home/frank/Qt/5.3/gcc_64/lib
-LIBS          = $(SUBLIBS) -L/home/frank/Qt/5.3/gcc_64/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -L/usr/local/lib -lavdevice -pthread -lavfilter -lpostproc -lavformat -lavcodec -lX11 -lasound -lSDL -lx264 -lz -lrt -lswresample -lswscale -lavutil -lm -L/home/frank/Qt/5.3/gcc_64/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 QMAKE         = /home/frank/Qt/5.3/gcc_64/bin/qmake
@@ -47,13 +47,19 @@ OBJECTS_DIR   = ./
 
 SOURCES       = main.cpp \
 		mainwindow.cpp \
-		video_device.cpp moc_mainwindow.cpp \
-		moc_video_device.cpp
+		video_device.cpp \
+		qvideooutput.cpp qrc_picture.cpp \
+		moc_mainwindow.cpp \
+		moc_video_device.cpp \
+		moc_qvideooutput.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
 		video_device.o \
+		qvideooutput.o \
+		qrc_picture.o \
 		moc_mainwindow.o \
-		moc_video_device.o
+		moc_video_device.o \
+		moc_qvideooutput.o
 DIST          = ../../Qt/5.3/gcc_64/mkspecs/features/spec_pre.prf \
 		../../Qt/5.3/gcc_64/mkspecs/common/shell-unix.conf \
 		../../Qt/5.3/gcc_64/mkspecs/common/unix.conf \
@@ -150,6 +156,7 @@ DIST          = ../../Qt/5.3/gcc_64/mkspecs/features/spec_pre.prf \
 		../../Qt/5.3/gcc_64/mkspecs/features/default_pre.prf \
 		../../Qt/5.3/gcc_64/mkspecs/features/resolve_config.prf \
 		../../Qt/5.3/gcc_64/mkspecs/features/default_post.prf \
+		../../Qt/5.3/gcc_64/mkspecs/features/link_pkgconfig.prf \
 		../../Qt/5.3/gcc_64/mkspecs/features/warn_on.prf \
 		../../Qt/5.3/gcc_64/mkspecs/features/qt.prf \
 		../../Qt/5.3/gcc_64/mkspecs/features/resources.prf \
@@ -163,7 +170,8 @@ DIST          = ../../Qt/5.3/gcc_64/mkspecs/features/spec_pre.prf \
 		../../Qt/5.3/gcc_64/mkspecs/features/lex.prf \
 		camera.pro main.cpp \
 		mainwindow.cpp \
-		video_device.cpp
+		video_device.cpp \
+		qvideooutput.cpp
 QMAKE_TARGET  = camera
 DESTDIR       = #avoid trailing-slash linebreak
 TARGET        = camera
@@ -292,6 +300,7 @@ Makefile: camera.pro ../../Qt/5.3/gcc_64/mkspecs/linux-g++/qmake.conf ../../Qt/5
 		../../Qt/5.3/gcc_64/mkspecs/features/default_pre.prf \
 		../../Qt/5.3/gcc_64/mkspecs/features/resolve_config.prf \
 		../../Qt/5.3/gcc_64/mkspecs/features/default_post.prf \
+		../../Qt/5.3/gcc_64/mkspecs/features/link_pkgconfig.prf \
 		../../Qt/5.3/gcc_64/mkspecs/features/warn_on.prf \
 		../../Qt/5.3/gcc_64/mkspecs/features/qt.prf \
 		../../Qt/5.3/gcc_64/mkspecs/features/resources.prf \
@@ -304,6 +313,7 @@ Makefile: camera.pro ../../Qt/5.3/gcc_64/mkspecs/linux-g++/qmake.conf ../../Qt/5
 		../../Qt/5.3/gcc_64/mkspecs/features/yacc.prf \
 		../../Qt/5.3/gcc_64/mkspecs/features/lex.prf \
 		camera.pro \
+		picture.qrc \
 		/home/frank/Qt/5.3/gcc_64/lib/libQt5Widgets.prl \
 		/home/frank/Qt/5.3/gcc_64/lib/libQt5Gui.prl \
 		/home/frank/Qt/5.3/gcc_64/lib/libQt5Core.prl
@@ -404,6 +414,7 @@ Makefile: camera.pro ../../Qt/5.3/gcc_64/mkspecs/linux-g++/qmake.conf ../../Qt/5
 ../../Qt/5.3/gcc_64/mkspecs/features/default_pre.prf:
 ../../Qt/5.3/gcc_64/mkspecs/features/resolve_config.prf:
 ../../Qt/5.3/gcc_64/mkspecs/features/default_post.prf:
+../../Qt/5.3/gcc_64/mkspecs/features/link_pkgconfig.prf:
 ../../Qt/5.3/gcc_64/mkspecs/features/warn_on.prf:
 ../../Qt/5.3/gcc_64/mkspecs/features/qt.prf:
 ../../Qt/5.3/gcc_64/mkspecs/features/resources.prf:
@@ -416,6 +427,7 @@ Makefile: camera.pro ../../Qt/5.3/gcc_64/mkspecs/linux-g++/qmake.conf ../../Qt/5
 ../../Qt/5.3/gcc_64/mkspecs/features/yacc.prf:
 ../../Qt/5.3/gcc_64/mkspecs/features/lex.prf:
 camera.pro:
+picture.qrc:
 /home/frank/Qt/5.3/gcc_64/lib/libQt5Widgets.prl:
 /home/frank/Qt/5.3/gcc_64/lib/libQt5Gui.prl:
 /home/frank/Qt/5.3/gcc_64/lib/libQt5Core.prl:
@@ -426,7 +438,7 @@ qmake_all: FORCE
 
 dist: 
 	@test -d .tmp/camera1.0.0 || mkdir -p .tmp/camera1.0.0
-	$(COPY_FILE) --parents $(DIST) .tmp/camera1.0.0/ && $(COPY_FILE) --parents mainwindow.h v4l2grab.h video_device.h qvideooutput.h .tmp/camera1.0.0/ && $(COPY_FILE) --parents main.cpp mainwindow.cpp video_device.cpp .tmp/camera1.0.0/ && $(COPY_FILE) --parents mainwindow.ui .tmp/camera1.0.0/ && (cd `dirname .tmp/camera1.0.0` && $(TAR) camera1.0.0.tar camera1.0.0 && $(COMPRESS) camera1.0.0.tar) && $(MOVE) `dirname .tmp/camera1.0.0`/camera1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/camera1.0.0
+	$(COPY_FILE) --parents $(DIST) .tmp/camera1.0.0/ && $(COPY_FILE) --parents picture.qrc .tmp/camera1.0.0/ && $(COPY_FILE) --parents mainwindow.h v4l2grab.h video_device.h qvideooutput.h .tmp/camera1.0.0/ && $(COPY_FILE) --parents main.cpp mainwindow.cpp video_device.cpp qvideooutput.cpp .tmp/camera1.0.0/ && $(COPY_FILE) --parents mainwindow.ui .tmp/camera1.0.0/ && (cd `dirname .tmp/camera1.0.0` && $(TAR) camera1.0.0.tar camera1.0.0 && $(COMPRESS) camera1.0.0.tar) && $(MOVE) `dirname .tmp/camera1.0.0`/camera1.0.0.tar.gz . && $(DEL_FILE) -r .tmp/camera1.0.0
 
 
 clean:compiler_clean 
@@ -447,11 +459,16 @@ mocables: compiler_moc_header_make_all compiler_moc_source_make_all
 
 check: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_picture.cpp
 compiler_rcc_clean:
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_video_device.cpp
+	-$(DEL_FILE) qrc_picture.cpp
+qrc_picture.cpp: picture.qrc \
+		picture/rec.png
+	/home/frank/Qt/5.3/gcc_64/bin/rcc -name picture picture.qrc -o qrc_picture.cpp
+
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_video_device.cpp moc_qvideooutput.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_video_device.cpp
+	-$(DEL_FILE) moc_mainwindow.cpp moc_video_device.cpp moc_qvideooutput.cpp
 moc_mainwindow.cpp: ../../Qt/5.3/gcc_64/include/QtWidgets/QMainWindow \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qmainwindow.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qwidget.h \
@@ -558,8 +575,41 @@ moc_mainwindow.cpp: ../../Qt/5.3/gcc_64/include/QtWidgets/QMainWindow \
 		../../Qt/5.3/gcc_64/include/QtCore/QFile \
 		video_device.h \
 		../../Qt/5.3/gcc_64/include/QtCore/QObject \
+		qvideooutput.h \
+		../../Qt/5.3/gcc_64/include/QtGui/QImage \
+		/usr/local/include/libavcodec/avcodec.h \
+		/usr/local/include/libavutil/samplefmt.h \
+		/usr/local/include/libavutil/avutil.h \
+		/usr/local/include/libavutil/common.h \
+		/usr/local/include/libavutil/attributes.h \
+		/usr/local/include/libavcodec/version.h \
+		/usr/local/include/libavutil/version.h \
+		/usr/local/include/libavutil/macros.h \
+		/usr/local/include/libavutil/avconfig.h \
+		/usr/local/include/libavutil/mem.h \
+		/usr/local/include/libavutil/error.h \
+		/usr/local/include/libavutil/rational.h \
+		/usr/local/include/libavutil/mathematics.h \
+		/usr/local/include/libavutil/intfloat.h \
+		/usr/local/include/libavutil/log.h \
+		/usr/local/include/libavutil/pixfmt.h \
+		/usr/local/include/libavutil/old_pix_fmts.h \
+		/usr/local/include/libavutil/buffer.h \
+		/usr/local/include/libavutil/cpu.h \
+		/usr/local/include/libavutil/channel_layout.h \
+		/usr/local/include/libavutil/dict.h \
+		/usr/local/include/libavutil/frame.h \
+		/usr/local/include/libavcodec/old_codec_ids.h \
+		/usr/local/include/libavformat/avformat.h \
+		/usr/local/include/libavformat/avio.h \
+		/usr/local/include/libavformat/version.h \
+		/usr/local/include/libavdevice/avdevice.h \
+		/usr/local/include/libavutil/opt.h \
+		/usr/local/include/libavfilter/avfilter.h \
+		/usr/local/include/libavfilter/version.h \
+		/usr/local/include/libswscale/swscale.h \
 		mainwindow.h
-	/home/frank/Qt/5.3/gcc_64/bin/moc $(DEFINES) -I/home/frank/Qt/5.3/gcc_64/mkspecs/linux-g++ -I/home/frank/Qt_prj/camera-v4l2-ffmpeg -I/home/frank/Qt/5.3/gcc_64/include -I/home/frank/Qt/5.3/gcc_64/include/QtWidgets -I/home/frank/Qt/5.3/gcc_64/include/QtGui -I/home/frank/Qt/5.3/gcc_64/include/QtCore mainwindow.h -o moc_mainwindow.cpp
+	/home/frank/Qt/5.3/gcc_64/bin/moc $(DEFINES) -I/home/frank/Qt/5.3/gcc_64/mkspecs/linux-g++ -I/home/frank/Qt_prj/camera-v4l2-ffmpeg -I/usr/local/include -I/home/frank/Qt/5.3/gcc_64/include -I/home/frank/Qt/5.3/gcc_64/include/QtWidgets -I/home/frank/Qt/5.3/gcc_64/include/QtGui -I/home/frank/Qt/5.3/gcc_64/include/QtCore mainwindow.h -o moc_mainwindow.cpp
 
 moc_video_device.cpp: ../../Qt/5.3/gcc_64/include/QtCore/QObject \
 		../../Qt/5.3/gcc_64/include/QtCore/qobject.h \
@@ -611,7 +661,113 @@ moc_video_device.cpp: ../../Qt/5.3/gcc_64/include/QtCore/QObject \
 		../../Qt/5.3/gcc_64/include/QtCore/qisenum.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qobject_impl.h \
 		video_device.h
-	/home/frank/Qt/5.3/gcc_64/bin/moc $(DEFINES) -I/home/frank/Qt/5.3/gcc_64/mkspecs/linux-g++ -I/home/frank/Qt_prj/camera-v4l2-ffmpeg -I/home/frank/Qt/5.3/gcc_64/include -I/home/frank/Qt/5.3/gcc_64/include/QtWidgets -I/home/frank/Qt/5.3/gcc_64/include/QtGui -I/home/frank/Qt/5.3/gcc_64/include/QtCore video_device.h -o moc_video_device.cpp
+	/home/frank/Qt/5.3/gcc_64/bin/moc $(DEFINES) -I/home/frank/Qt/5.3/gcc_64/mkspecs/linux-g++ -I/home/frank/Qt_prj/camera-v4l2-ffmpeg -I/usr/local/include -I/home/frank/Qt/5.3/gcc_64/include -I/home/frank/Qt/5.3/gcc_64/include/QtWidgets -I/home/frank/Qt/5.3/gcc_64/include/QtGui -I/home/frank/Qt/5.3/gcc_64/include/QtCore video_device.h -o moc_video_device.cpp
+
+moc_qvideooutput.cpp: ../../Qt/5.3/gcc_64/include/QtCore/QObject \
+		../../Qt/5.3/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qfeatures.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qtypetraits.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_armv7.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_armv6.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_armv5.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_ia64.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_mips.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_x86.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_gcc.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_unix.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qlist.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qalgorithms.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qiterator.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qscopedpointer.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qmetatype.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qisenum.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qobject_impl.h \
+		../../Qt/5.3/gcc_64/include/QtGui/QImage \
+		../../Qt/5.3/gcc_64/include/QtGui/qimage.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qtransform.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qmatrix.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qpolygon.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qvector.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qpoint.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qrect.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qmargins.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qsize.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qregion.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qwindowdefs.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qwindowdefs_win.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qdatastream.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qiodevice.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qpair.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qline.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qpainterpath.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qpaintdevice.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qrgb.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qstringlist.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qregexp.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qstringmatcher.h \
+		/usr/local/include/libavcodec/avcodec.h \
+		/usr/local/include/libavutil/samplefmt.h \
+		/usr/local/include/libavutil/avutil.h \
+		/usr/local/include/libavutil/common.h \
+		/usr/local/include/libavutil/attributes.h \
+		/usr/local/include/libavcodec/version.h \
+		/usr/local/include/libavutil/version.h \
+		/usr/local/include/libavutil/macros.h \
+		/usr/local/include/libavutil/avconfig.h \
+		/usr/local/include/libavutil/mem.h \
+		/usr/local/include/libavutil/error.h \
+		/usr/local/include/libavutil/rational.h \
+		/usr/local/include/libavutil/mathematics.h \
+		/usr/local/include/libavutil/intfloat.h \
+		/usr/local/include/libavutil/log.h \
+		/usr/local/include/libavutil/pixfmt.h \
+		/usr/local/include/libavutil/old_pix_fmts.h \
+		/usr/local/include/libavutil/buffer.h \
+		/usr/local/include/libavutil/cpu.h \
+		/usr/local/include/libavutil/channel_layout.h \
+		/usr/local/include/libavutil/dict.h \
+		/usr/local/include/libavutil/frame.h \
+		/usr/local/include/libavcodec/old_codec_ids.h \
+		/usr/local/include/libavformat/avformat.h \
+		/usr/local/include/libavformat/avio.h \
+		/usr/local/include/libavformat/version.h \
+		/usr/local/include/libavdevice/avdevice.h \
+		/usr/local/include/libavutil/opt.h \
+		/usr/local/include/libavfilter/avfilter.h \
+		/usr/local/include/libavfilter/version.h \
+		/usr/local/include/libswscale/swscale.h \
+		qvideooutput.h
+	/home/frank/Qt/5.3/gcc_64/bin/moc $(DEFINES) -I/home/frank/Qt/5.3/gcc_64/mkspecs/linux-g++ -I/home/frank/Qt_prj/camera-v4l2-ffmpeg -I/usr/local/include -I/home/frank/Qt/5.3/gcc_64/include -I/home/frank/Qt/5.3/gcc_64/include/QtWidgets -I/home/frank/Qt/5.3/gcc_64/include/QtGui -I/home/frank/Qt/5.3/gcc_64/include/QtCore qvideooutput.h -o moc_qvideooutput.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -627,7 +783,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_header_clean compiler_uic_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
@@ -738,6 +894,39 @@ main.o: main.cpp mainwindow.h \
 		../../Qt/5.3/gcc_64/include/QtCore/QFile \
 		video_device.h \
 		../../Qt/5.3/gcc_64/include/QtCore/QObject \
+		qvideooutput.h \
+		../../Qt/5.3/gcc_64/include/QtGui/QImage \
+		/usr/local/include/libavcodec/avcodec.h \
+		/usr/local/include/libavutil/samplefmt.h \
+		/usr/local/include/libavutil/avutil.h \
+		/usr/local/include/libavutil/common.h \
+		/usr/local/include/libavutil/attributes.h \
+		/usr/local/include/libavcodec/version.h \
+		/usr/local/include/libavutil/version.h \
+		/usr/local/include/libavutil/macros.h \
+		/usr/local/include/libavutil/avconfig.h \
+		/usr/local/include/libavutil/mem.h \
+		/usr/local/include/libavutil/error.h \
+		/usr/local/include/libavutil/rational.h \
+		/usr/local/include/libavutil/mathematics.h \
+		/usr/local/include/libavutil/intfloat.h \
+		/usr/local/include/libavutil/log.h \
+		/usr/local/include/libavutil/pixfmt.h \
+		/usr/local/include/libavutil/old_pix_fmts.h \
+		/usr/local/include/libavutil/buffer.h \
+		/usr/local/include/libavutil/cpu.h \
+		/usr/local/include/libavutil/channel_layout.h \
+		/usr/local/include/libavutil/dict.h \
+		/usr/local/include/libavutil/frame.h \
+		/usr/local/include/libavcodec/old_codec_ids.h \
+		/usr/local/include/libavformat/avformat.h \
+		/usr/local/include/libavformat/avio.h \
+		/usr/local/include/libavformat/version.h \
+		/usr/local/include/libavdevice/avdevice.h \
+		/usr/local/include/libavutil/opt.h \
+		/usr/local/include/libavfilter/avfilter.h \
+		/usr/local/include/libavfilter/version.h \
+		/usr/local/include/libswscale/swscale.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/QApplication \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qapplication.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qcoreapplication.h \
@@ -854,6 +1043,39 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.3/gcc_64/include/QtCore/QFile \
 		video_device.h \
 		../../Qt/5.3/gcc_64/include/QtCore/QObject \
+		qvideooutput.h \
+		../../Qt/5.3/gcc_64/include/QtGui/QImage \
+		/usr/local/include/libavcodec/avcodec.h \
+		/usr/local/include/libavutil/samplefmt.h \
+		/usr/local/include/libavutil/avutil.h \
+		/usr/local/include/libavutil/common.h \
+		/usr/local/include/libavutil/attributes.h \
+		/usr/local/include/libavcodec/version.h \
+		/usr/local/include/libavutil/version.h \
+		/usr/local/include/libavutil/macros.h \
+		/usr/local/include/libavutil/avconfig.h \
+		/usr/local/include/libavutil/mem.h \
+		/usr/local/include/libavutil/error.h \
+		/usr/local/include/libavutil/rational.h \
+		/usr/local/include/libavutil/mathematics.h \
+		/usr/local/include/libavutil/intfloat.h \
+		/usr/local/include/libavutil/log.h \
+		/usr/local/include/libavutil/pixfmt.h \
+		/usr/local/include/libavutil/old_pix_fmts.h \
+		/usr/local/include/libavutil/buffer.h \
+		/usr/local/include/libavutil/cpu.h \
+		/usr/local/include/libavutil/channel_layout.h \
+		/usr/local/include/libavutil/dict.h \
+		/usr/local/include/libavutil/frame.h \
+		/usr/local/include/libavcodec/old_codec_ids.h \
+		/usr/local/include/libavformat/avformat.h \
+		/usr/local/include/libavformat/avio.h \
+		/usr/local/include/libavformat/version.h \
+		/usr/local/include/libavdevice/avdevice.h \
+		/usr/local/include/libavutil/opt.h \
+		/usr/local/include/libavfilter/avfilter.h \
+		/usr/local/include/libavfilter/version.h \
+		/usr/local/include/libswscale/swscale.h \
 		ui_mainwindow.h \
 		../../Qt/5.3/gcc_64/include/QtCore/QVariant \
 		../../Qt/5.3/gcc_64/include/QtWidgets/QAction \
@@ -909,7 +1131,6 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qtimer.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qbasictimer.h \
 		../../Qt/5.3/gcc_64/include/QtGui/QPixmap \
-		../../Qt/5.3/gcc_64/include/QtGui/QImage \
 		../../Qt/5.3/gcc_64/include/QtGui/QPainter \
 		../../Qt/5.3/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.3/gcc_64/include/QtCore/QThread \
@@ -1096,6 +1317,8 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/QMessageBox \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qmessagebox.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qdialog.h \
+		../../Qt/5.3/gcc_64/include/QtWidgets/QFileDialog \
+		../../Qt/5.3/gcc_64/include/QtWidgets/qfiledialog.h \
 		v4l2grab.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
 
@@ -1399,11 +1622,133 @@ video_device.o: video_device.cpp ../../Qt/5.3/gcc_64/include/QtCore/QDebug \
 		v4l2grab.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o video_device.o video_device.cpp
 
+qvideooutput.o: qvideooutput.cpp ../../Qt/5.3/gcc_64/include/QtCore/QDebug \
+		../../Qt/5.3/gcc_64/include/QtCore/qdebug.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qalgorithms.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qglobal.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qconfig.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qfeatures.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qsystemdetection.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qprocessordetection.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qtypeinfo.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qtypetraits.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qsysinfo.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qlogging.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qflags.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qbasicatomic.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qgenericatomic.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_armv7.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_armv6.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_armv5.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_ia64.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_mips.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_x86.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_gcc.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qatomic_unix.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qglobalstatic.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qmutex.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qnumeric.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qhash.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qchar.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qiterator.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qlist.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qrefcount.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qpair.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qmap.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qtextstream.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qiodevice.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qobject.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qobjectdefs.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qnamespace.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qstring.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qbytearray.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qarraydata.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qstringbuilder.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qcoreevent.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qscopedpointer.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qmetatype.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qisenum.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qobject_impl.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qlocale.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qvariant.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qstringlist.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qdatastream.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qregexp.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qstringmatcher.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qshareddata.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qvector.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qpoint.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qset.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qcontiguouscache.h \
+		qvideooutput.h \
+		../../Qt/5.3/gcc_64/include/QtCore/QObject \
+		../../Qt/5.3/gcc_64/include/QtGui/QImage \
+		../../Qt/5.3/gcc_64/include/QtGui/qimage.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qtransform.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qmatrix.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qpolygon.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qrect.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qmargins.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qsize.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qregion.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qwindowdefs.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qwindowdefs_win.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qline.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qpainterpath.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qpaintdevice.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qrgb.h \
+		/usr/local/include/libavcodec/avcodec.h \
+		/usr/local/include/libavutil/samplefmt.h \
+		/usr/local/include/libavutil/avutil.h \
+		/usr/local/include/libavutil/common.h \
+		/usr/local/include/libavutil/attributes.h \
+		/usr/local/include/libavcodec/version.h \
+		/usr/local/include/libavutil/version.h \
+		/usr/local/include/libavutil/macros.h \
+		/usr/local/include/libavutil/avconfig.h \
+		/usr/local/include/libavutil/mem.h \
+		/usr/local/include/libavutil/error.h \
+		/usr/local/include/libavutil/rational.h \
+		/usr/local/include/libavutil/mathematics.h \
+		/usr/local/include/libavutil/intfloat.h \
+		/usr/local/include/libavutil/log.h \
+		/usr/local/include/libavutil/pixfmt.h \
+		/usr/local/include/libavutil/old_pix_fmts.h \
+		/usr/local/include/libavutil/buffer.h \
+		/usr/local/include/libavutil/cpu.h \
+		/usr/local/include/libavutil/channel_layout.h \
+		/usr/local/include/libavutil/dict.h \
+		/usr/local/include/libavutil/frame.h \
+		/usr/local/include/libavcodec/old_codec_ids.h \
+		/usr/local/include/libavformat/avformat.h \
+		/usr/local/include/libavformat/avio.h \
+		/usr/local/include/libavformat/version.h \
+		/usr/local/include/libavdevice/avdevice.h \
+		/usr/local/include/libavutil/opt.h \
+		/usr/local/include/libavfilter/avfilter.h \
+		/usr/local/include/libavfilter/version.h \
+		/usr/local/include/libswscale/swscale.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qvideooutput.o qvideooutput.cpp
+
+qrc_picture.o: qrc_picture.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_picture.o qrc_picture.cpp
+
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
 
 moc_video_device.o: moc_video_device.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_video_device.o moc_video_device.cpp
+
+moc_qvideooutput.o: moc_qvideooutput.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_qvideooutput.o moc_qvideooutput.cpp
 
 ####### Install
 

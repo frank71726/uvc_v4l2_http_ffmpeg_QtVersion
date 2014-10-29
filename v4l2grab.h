@@ -8,7 +8,7 @@ typedef unsigned int  DWORD;
 #pragma pack(1)
 
 typedef struct tagBITMAPFILEHEADER{
-     WORD	  bfType;                  // the flag of bmp, value is "BM"
+     WORD	  bfType;                // the flag of bmp, value is "BM"
      DWORD    bfSize;                // size BMP file ,unit is bytes
      DWORD    bfReserved;            // 0
      DWORD    bfOffBits;             // must be 54
@@ -20,8 +20,8 @@ typedef struct tagBITMAPINFOHEADER{
      DWORD    biSize;                // must be 0x28
      DWORD    biWidth;               //
      DWORD    biHeight;              //
-     WORD	  biPlanes;            // must be 1
-     WORD	  biBitCount;          //
+     WORD	  biPlanes;              // must be 1
+     WORD	  biBitCount;            //
      DWORD    biCompression;         //
      DWORD    biSizeImage;           //
      DWORD    biXPelsPerMeter;       //

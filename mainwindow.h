@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QFile>
 #include "video_device.h"
+#include "qvideooutput.h"
 
 namespace Ui {
 class MainWindow;
@@ -17,23 +18,25 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     unsigned char rgb_frame_buffer[640*480*3];
     ~MainWindow();
+    QVideoOutput *videoOutput;
 
 private slots:
     void on_PlayBut_released();
-  //  void paintEvent(QPaintEvent *);
     void update();
-
     void on_SavePic_released();
+    void on_actionRecord_released();
+    void blinkSlot();
 
 private:
     Ui::MainWindow *ui;
     QTimer *timer;
-
+    QTimer *recordingTimer;
     video_device *vd;
     size_t len;
     unsigned char *yuv_buffer_pointer;
     QString save_pic_name;
     bool save_picture_flag;
+    QTemporaryFile *templateFile;
 };
 
 #endif // MAINWINDOW_H

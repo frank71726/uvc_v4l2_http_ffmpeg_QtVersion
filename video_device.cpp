@@ -34,20 +34,17 @@ static int verbose = 1;
 
 #define CLEAR(x) memset(&(x), 0, sizeof(x))
 
-
-
 video_device::video_device(QString devn)
 {
-    int ret, dev;
+    int ret;
 
     QByteArray ba = devn.toLocal8Bit();
     char *c_str = ba.data();
 
     this->dev_name = c_str;
-    this->image_width = 640;
-    this->image_hight = 480;
+    this->image_width = IMAGEWIDTH;
+    this->image_hight = IMAGEHEIGHT;
     this->nbufs = 6;
-    this->fd = -1;
     pixelformat = V4L2_PIX_FMT_YUYV;
 
     ret = camera_v4l2_setting(&dev, image_width, image_hight, pixelformat, dev_name, nbufs, mem0 );
@@ -64,37 +61,34 @@ video_device::video_device(QString devn)
         qDebug("starting video streaming fail");
         exit(EXIT_FAILURE);
     }
-
 }
-/*
+
 video_device::~video_device()
 {
-    int ret,i;
+    int ret;
+    unsigned int i;
 
     ret = video_enable(dev, 0);
     if(-1 == ret)
     {
         qDebug("stoping video streaming fail");
-       // exit(EXIT_FAILURE);
+        exit(EXIT_FAILURE);
     }
     //uninit_device
-    for (i = 0; i < nbufs; ++i)
+    for (i = 0; i < nbufs; i++)
     {
-        if (-1 == munmap(mem0[i], ssss))
+        if (-1 == munmap(mem0[i], buf_byteused))
         {
             errno_exit("munmap");
-           // return 1;
         }
     }
     //close device
-    if (-1 == close(fd))
+    if (-1 == close(dev))
     {
         errno_exit("close");
-        //return 1;
     }
-    fd = -1;
 }
-*/
+
 int video_device::camera_v4l2_setting(int *dev, unsigned int width, unsigned int height, unsigned int pixelformat, const char *camera_dev, int nbufs, void **mem0)
 {
     int freeram;
@@ -107,14 +101,13 @@ int video_device::camera_v4l2_setting(int *dev, unsigned int width, unsigned int
         qDebug("Cannot identify '%s': %d, %s\n", camera_dev, errno, strerror(errno));
         return -1;
     }
-    fd = *dev;
 
     // Set the video format
     if(-1 == video_set_format(*dev, width, height, pixelformat))
     {
         if(pixelformat == V4L2_PIX_FMT_H264)
         {
-            fprintf(stderr, " === Set Format Failed : skip for H264 ===  \n");
+            qDebug() << " === Set Format Failed : skip for H264 ===";
             return -1;
         }
         else
@@ -199,7 +192,7 @@ int video_device::camera_v4l2_setting(int *dev, unsigned int width, unsigned int
             return -1;
         }
         qDebug("Buffer %u mapped at address %p.\n", i, mem0[i]);
-        ssss = buf0.bytesused;
+        buf_byteused = buf0.bytesused;
     }
 
     // Queue the buffer
@@ -220,8 +213,6 @@ int video_device::camera_v4l2_setting(int *dev, unsigned int width, unsigned int
         }
         pr_debug("buffer %d -> queued!\n",i);
     }
-
-
     qDebug() << "camera_v4l2_setting ok------------";
 
     return 0;
@@ -391,7 +382,7 @@ int video_device::video_set_framerate(int dev)
             parm.parm.capture.timeperframe.denominator);
 
     parm.parm.capture.timeperframe.numerator = 1;
-    parm.parm.capture.timeperframe.denominator = 30;//25;
+    parm.parm.capture.timeperframe.denominator = 30;
 
     if(-1 == xioctl(dev, VIDIOC_S_PARM, &parm))
     {
@@ -465,25 +456,18 @@ int video_device::video_reqbufs(int dev, int nbufs)
         qDebug("Insufficient buffer memory on %d\n", dev);
         return -1;
     }
-
-    nbufs = rb.count;
-
+ //   nbufs = rb.count;
     return 0;
 }
 int video_device::video_enable(int dev, int enable)
 {
     int type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 
-    pr_debug("\t%s \n ",enable ? "Before STREAMON" : "Before STREAMOFF");
-
     if(-1 == xioctl(dev, enable ? VIDIOC_STREAMON : VIDIOC_STREAMOFF, &type))
     {
-        pr_debug("\t%s \n ",enable ? "Before STREAMON" : "Before STREAMOFF");
+        pr_debug("\t%s \n ",enable ? "STREAMON fail" : "STREAMOFF fail");
         return -1;
     }
-
-    pr_debug("\t%s \n ",enable ? "After STREAMON" : "After STREAMOFF");
-
     return 0;
 }
 int video_device::get_frame(unsigned char **yuv_buffer_pointer, size_t *len)
@@ -495,11 +479,11 @@ int video_device::get_frame(unsigned char **yuv_buffer_pointer, size_t *len)
     buf0.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
     buf0.memory = V4L2_MEMORY_MMAP;
 
-    if (-1 == xioctl(fd, VIDIOC_DQBUF, &buf0))
+    if (-1 == xioctl(dev, VIDIOC_DQBUF, &buf0))
     {
         switch (errno) {
             case EAGAIN:
-                close(fd);
+                close(dev);
                 errno_exit("VIDIOC_DQBUF EAGAIN");
                 return -1;
             case EIO:
@@ -507,7 +491,7 @@ int video_device::get_frame(unsigned char **yuv_buffer_pointer, size_t *len)
                 //  fall through
             default:
                 errno_exit("VIDIOC_DQBUF");
-                close(fd);
+                close(dev);
                 return -1;
         }
     }
@@ -517,30 +501,7 @@ int video_device::get_frame(unsigned char **yuv_buffer_pointer, size_t *len)
     *len =  buf0.bytesused;
     index = buf0.index;
 
-
     return 0;
-    /*
-
-    if( -1 == process_image(mem0[buf0.index], buf0.bytesused))
-    {
-        fprintf(stderr, "process_image fail");
-        exit(EXIT_FAILURE);
-    }
-
-    if( -1 == yuyv_2_rgb888(mem0[buf0.index], buf0.bytesused))
-    {
-        fprintf(stderr, "yuyv_2_rgb change fail");
-        exit(EXIT_FAILURE);
-    }
-
-    // Requeue the buffe
-    if (-1 == xioctl(dev, VIDIOC_QBUF, &buf0))
-    {
-        errno_exit("VIDIOC_QBUF");
-        close(dev);
-        return 1;
-    }
-    */
 }
 
 int video_device::unget_frame()
@@ -554,17 +515,17 @@ int video_device::unget_frame()
         buf0.index = index;
 
         // Requeue the buffe
-        if (-1 == xioctl(fd, VIDIOC_QBUF, &buf0))
+        if (-1 == xioctl(dev, VIDIOC_QBUF, &buf0))
         {
             errno_exit("VIDIOC_QBUF");
-            close(fd);
+            close(dev);
             return -1;
         }
         return 0;
     }
     return -1;
 }
-
+/*
 int video_device::yuyv_2_rgb888(const void *p, int size, unsigned char *frame_buffer)
 {
     int i,j;
@@ -572,18 +533,7 @@ int video_device::yuyv_2_rgb888(const void *p, int size, unsigned char *frame_bu
     int r1,g1,b1,r2,g2,b2;
     const char *pointer;
     size++;
-    /*
-    QFile rgbfile("out_rgb.bmp");
 
-    BITMAPFILEHEADER   bf;
-    BITMAPINFOHEADER   bi;
-
-    if(!rgbfile.open(QIODevice::ReadWrite | QIODevice::Text))
-    {
-        qDebug() << "open rgbfile fail";
-        return -1;
-    }
-*/
     pointer = (const char *)p;
 
     for(i=0;i<480;i++)
@@ -629,34 +579,7 @@ int video_device::yuyv_2_rgb888(const void *p, int size, unsigned char *frame_bu
             *(frame_buffer + ((480-1-i)*320+j)*6 + 5) = (unsigned char)r2;
         }
     }
-   // pr_debug("\tchange to RGB OK \n");
 
-/*
-    //Set BITMAPINFOHEADER
-    bi.biSize = 40;
-    bi.biWidth = IMAGEWIDTH;
-    bi.biHeight = IMAGEHEIGHT;
-    bi.biPlanes = 1;
-    bi.biBitCount = 24;
-    bi.biCompression = 0;
-    bi.biSizeImage = IMAGEWIDTH*IMAGEHEIGHT*3;
-    bi.biXPelsPerMeter = 0;
-    bi.biYPelsPerMeter = 0;
-    bi.biClrUsed = 0;
-    bi.biClrImportant = 0;
-
-    //Set BITMAPFILEHEADER
-    bf.bfType = 0x4d42;
-    bf.bfSize = 54 + bi.biSizeImage;
-    bf.bfReserved = 0;
-    bf.bfOffBits = 54;
-
-    rgbfile.write((const char *)&bf, 14);
-    rgbfile.write((const char *)&bi, 40);
-
-    rgbfile.write((const char *)frame_buffer, bi.biSizeImage);
-
-    pr_debug("\tsave BMP OK\n");
-*/
     return 0;
 }
+*/
