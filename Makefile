@@ -12,13 +12,13 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_WIDGETS_LIB -DQT_NETWORK_LIB -DQT_GUI_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIE $(DEFINES)
 CXXFLAGS      = -pipe -g -Wall -W -D_REENTRANT -fPIE $(DEFINES)
-INCPATH       = -I../../Qt/5.3/gcc_64/mkspecs/linux-g++ -I. -I/usr/local/include -I../../Qt/5.3/gcc_64/include -I../../Qt/5.3/gcc_64/include/QtWidgets -I../../Qt/5.3/gcc_64/include/QtGui -I../../Qt/5.3/gcc_64/include/QtCore -I. -I.
+INCPATH       = -I../../Qt/5.3/gcc_64/mkspecs/linux-g++ -I. -I/usr/local/include -I../../Qt/5.3/gcc_64/include -I../../Qt/5.3/gcc_64/include/QtWidgets -I../../Qt/5.3/gcc_64/include/QtNetwork -I../../Qt/5.3/gcc_64/include/QtGui -I../../Qt/5.3/gcc_64/include/QtCore -I. -I.
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/frank/Qt/5.3/gcc_64 -Wl,-rpath,/home/frank/Qt/5.3/gcc_64/lib
-LIBS          = $(SUBLIBS) -L/usr/local/lib -lavdevice -pthread -lavfilter -lpostproc -lavformat -lavcodec -lX11 -lasound -lSDL -lx264 -lz -lrt -lswresample -lswscale -lavutil -lm -L/home/frank/Qt/5.3/gcc_64/lib -lQt5Widgets -lQt5Gui -lQt5Core -lGL -lpthread 
+LIBS          = $(SUBLIBS) -L/usr/local/lib -lavdevice -pthread -lavfilter -lpostproc -lavformat -lavcodec -lX11 -lasound -lSDL -lx264 -lz -lrt -lswresample -lswscale -lavutil -lm -L/home/frank/Qt/5.3/gcc_64/lib -lQt5Widgets -lQt5Network -lQt5Gui -lQt5Core -lGL -lpthread 
 AR            = ar cqs
 RANLIB        = 
 QMAKE         = /home/frank/Qt/5.3/gcc_64/bin/qmake
@@ -316,7 +316,8 @@ Makefile: camera.pro ../../Qt/5.3/gcc_64/mkspecs/linux-g++/qmake.conf ../../Qt/5
 		picture.qrc \
 		/home/frank/Qt/5.3/gcc_64/lib/libQt5Widgets.prl \
 		/home/frank/Qt/5.3/gcc_64/lib/libQt5Gui.prl \
-		/home/frank/Qt/5.3/gcc_64/lib/libQt5Core.prl
+		/home/frank/Qt/5.3/gcc_64/lib/libQt5Core.prl \
+		/home/frank/Qt/5.3/gcc_64/lib/libQt5Network.prl
 	$(QMAKE) -spec linux-g++ CONFIG+=debug -o Makefile camera.pro
 ../../Qt/5.3/gcc_64/mkspecs/features/spec_pre.prf:
 ../../Qt/5.3/gcc_64/mkspecs/common/shell-unix.conf:
@@ -431,6 +432,7 @@ picture.qrc:
 /home/frank/Qt/5.3/gcc_64/lib/libQt5Widgets.prl:
 /home/frank/Qt/5.3/gcc_64/lib/libQt5Gui.prl:
 /home/frank/Qt/5.3/gcc_64/lib/libQt5Core.prl:
+/home/frank/Qt/5.3/gcc_64/lib/libQt5Network.prl:
 qmake: FORCE
 	@$(QMAKE) -spec linux-g++ CONFIG+=debug -o Makefile camera.pro
 
@@ -609,7 +611,7 @@ moc_mainwindow.cpp: ../../Qt/5.3/gcc_64/include/QtWidgets/QMainWindow \
 		/usr/local/include/libavfilter/version.h \
 		/usr/local/include/libswscale/swscale.h \
 		mainwindow.h
-	/home/frank/Qt/5.3/gcc_64/bin/moc $(DEFINES) -I/home/frank/Qt/5.3/gcc_64/mkspecs/linux-g++ -I/home/frank/Qt_prj/camera-v4l2-ffmpeg -I/usr/local/include -I/home/frank/Qt/5.3/gcc_64/include -I/home/frank/Qt/5.3/gcc_64/include/QtWidgets -I/home/frank/Qt/5.3/gcc_64/include/QtGui -I/home/frank/Qt/5.3/gcc_64/include/QtCore mainwindow.h -o moc_mainwindow.cpp
+	/home/frank/Qt/5.3/gcc_64/bin/moc $(DEFINES) -I/home/frank/Qt/5.3/gcc_64/mkspecs/linux-g++ -I/home/frank/Qt_prj/camera-v4l2-ffmpeg -I/usr/local/include -I/home/frank/Qt/5.3/gcc_64/include -I/home/frank/Qt/5.3/gcc_64/include/QtWidgets -I/home/frank/Qt/5.3/gcc_64/include/QtNetwork -I/home/frank/Qt/5.3/gcc_64/include/QtGui -I/home/frank/Qt/5.3/gcc_64/include/QtCore mainwindow.h -o moc_mainwindow.cpp
 
 moc_video_device.cpp: ../../Qt/5.3/gcc_64/include/QtCore/QObject \
 		../../Qt/5.3/gcc_64/include/QtCore/qobject.h \
@@ -661,7 +663,7 @@ moc_video_device.cpp: ../../Qt/5.3/gcc_64/include/QtCore/QObject \
 		../../Qt/5.3/gcc_64/include/QtCore/qisenum.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qobject_impl.h \
 		video_device.h
-	/home/frank/Qt/5.3/gcc_64/bin/moc $(DEFINES) -I/home/frank/Qt/5.3/gcc_64/mkspecs/linux-g++ -I/home/frank/Qt_prj/camera-v4l2-ffmpeg -I/usr/local/include -I/home/frank/Qt/5.3/gcc_64/include -I/home/frank/Qt/5.3/gcc_64/include/QtWidgets -I/home/frank/Qt/5.3/gcc_64/include/QtGui -I/home/frank/Qt/5.3/gcc_64/include/QtCore video_device.h -o moc_video_device.cpp
+	/home/frank/Qt/5.3/gcc_64/bin/moc $(DEFINES) -I/home/frank/Qt/5.3/gcc_64/mkspecs/linux-g++ -I/home/frank/Qt_prj/camera-v4l2-ffmpeg -I/usr/local/include -I/home/frank/Qt/5.3/gcc_64/include -I/home/frank/Qt/5.3/gcc_64/include/QtWidgets -I/home/frank/Qt/5.3/gcc_64/include/QtNetwork -I/home/frank/Qt/5.3/gcc_64/include/QtGui -I/home/frank/Qt/5.3/gcc_64/include/QtCore video_device.h -o moc_video_device.cpp
 
 moc_qvideooutput.cpp: ../../Qt/5.3/gcc_64/include/QtCore/QObject \
 		../../Qt/5.3/gcc_64/include/QtCore/qobject.h \
@@ -767,7 +769,7 @@ moc_qvideooutput.cpp: ../../Qt/5.3/gcc_64/include/QtCore/QObject \
 		/usr/local/include/libavfilter/version.h \
 		/usr/local/include/libswscale/swscale.h \
 		qvideooutput.h
-	/home/frank/Qt/5.3/gcc_64/bin/moc $(DEFINES) -I/home/frank/Qt/5.3/gcc_64/mkspecs/linux-g++ -I/home/frank/Qt_prj/camera-v4l2-ffmpeg -I/usr/local/include -I/home/frank/Qt/5.3/gcc_64/include -I/home/frank/Qt/5.3/gcc_64/include/QtWidgets -I/home/frank/Qt/5.3/gcc_64/include/QtGui -I/home/frank/Qt/5.3/gcc_64/include/QtCore qvideooutput.h -o moc_qvideooutput.cpp
+	/home/frank/Qt/5.3/gcc_64/bin/moc $(DEFINES) -I/home/frank/Qt/5.3/gcc_64/mkspecs/linux-g++ -I/home/frank/Qt_prj/camera-v4l2-ffmpeg -I/usr/local/include -I/home/frank/Qt/5.3/gcc_64/include -I/home/frank/Qt/5.3/gcc_64/include/QtWidgets -I/home/frank/Qt/5.3/gcc_64/include/QtNetwork -I/home/frank/Qt/5.3/gcc_64/include/QtGui -I/home/frank/Qt/5.3/gcc_64/include/QtCore qvideooutput.h -o moc_qvideooutput.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -1319,6 +1321,17 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qdialog.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/QFileDialog \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qfiledialog.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/QNetworkAccessManager \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/QSslConfiguration \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qsslconfiguration.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qsslsocket.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qtcpsocket.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qabstractsocket.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qsslerror.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qsslcertificate.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qssl.h \
+		../../Qt/5.3/gcc_64/include/QtCore/QFlags \
 		v4l2grab.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
 
@@ -1688,23 +1701,47 @@ qvideooutput.o: qvideooutput.cpp ../../Qt/5.3/gcc_64/include/QtCore/QDebug \
 		../../Qt/5.3/gcc_64/include/QtCore/qpoint.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qset.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qcontiguouscache.h \
+		../../Qt/5.3/gcc_64/include/QtCore/QFile \
+		../../Qt/5.3/gcc_64/include/QtCore/qfile.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qfiledevice.h \
+		../../Qt/5.3/gcc_64/include/QtWidgets/QMessageBox \
+		../../Qt/5.3/gcc_64/include/QtWidgets/qmessagebox.h \
+		../../Qt/5.3/gcc_64/include/QtWidgets/qdialog.h \
+		../../Qt/5.3/gcc_64/include/QtWidgets/qwidget.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qwindowdefs.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qwindowdefs_win.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qmargins.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qpaintdevice.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qrect.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qsize.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qpalette.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qcolor.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qrgb.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qbrush.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qmatrix.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qpolygon.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qregion.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qline.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qtransform.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qpainterpath.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qimage.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qpixmap.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qsharedpointer.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qfont.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qfontmetrics.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qfontinfo.h \
+		../../Qt/5.3/gcc_64/include/QtWidgets/qsizepolicy.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qcursor.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qkeysequence.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qevent.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qurl.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qurlquery.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qvector2d.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qtouchdevice.h \
 		qvideooutput.h \
 		../../Qt/5.3/gcc_64/include/QtCore/QObject \
 		../../Qt/5.3/gcc_64/include/QtGui/QImage \
-		../../Qt/5.3/gcc_64/include/QtGui/qimage.h \
-		../../Qt/5.3/gcc_64/include/QtGui/qtransform.h \
-		../../Qt/5.3/gcc_64/include/QtGui/qmatrix.h \
-		../../Qt/5.3/gcc_64/include/QtGui/qpolygon.h \
-		../../Qt/5.3/gcc_64/include/QtCore/qrect.h \
-		../../Qt/5.3/gcc_64/include/QtCore/qmargins.h \
-		../../Qt/5.3/gcc_64/include/QtCore/qsize.h \
-		../../Qt/5.3/gcc_64/include/QtGui/qregion.h \
-		../../Qt/5.3/gcc_64/include/QtGui/qwindowdefs.h \
-		../../Qt/5.3/gcc_64/include/QtGui/qwindowdefs_win.h \
-		../../Qt/5.3/gcc_64/include/QtCore/qline.h \
-		../../Qt/5.3/gcc_64/include/QtGui/qpainterpath.h \
-		../../Qt/5.3/gcc_64/include/QtGui/qpaintdevice.h \
-		../../Qt/5.3/gcc_64/include/QtGui/qrgb.h \
 		/usr/local/include/libavcodec/avcodec.h \
 		/usr/local/include/libavutil/samplefmt.h \
 		/usr/local/include/libavutil/avutil.h \
@@ -1735,7 +1772,8 @@ qvideooutput.o: qvideooutput.cpp ../../Qt/5.3/gcc_64/include/QtCore/QDebug \
 		/usr/local/include/libavutil/opt.h \
 		/usr/local/include/libavfilter/avfilter.h \
 		/usr/local/include/libavfilter/version.h \
-		/usr/local/include/libswscale/swscale.h
+		/usr/local/include/libswscale/swscale.h \
+		v4l2grab.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qvideooutput.o qvideooutput.cpp
 
 qrc_picture.o: qrc_picture.cpp 

@@ -15,6 +15,14 @@
 #include <QFileDialog>
 #include <QRect>
 
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QUrl>
+#include <QDateTime>
+#include <QFile>
+#include <QDebug>
+
 #include <stdio.h>
 #include <string.h>
 #include <fcntl.h>
@@ -234,4 +242,67 @@ void MainWindow::blinkSlot()
     render(&pixmap, QPoint(), QRegion(r1));
     videoOutput->newFrame(pixmap.toImage());
   //  blinkCount++;
+}
+
+void MainWindow::on_pushButton_released()
+{
+    /*  download from server
+    manager = new QNetworkAccessManager(this);
+    connect(manager, SIGNAL(finished(QNetworkReply*)),
+                this, SLOT(replyFinished(QNetworkReply*)));
+    manager->get(QNetworkRequest(QUrl("http://192.168.1.123:8080/_file_server_download/123.txt")));
+    */
+
+    manager = new QNetworkAccessManager(this);
+    QString path("/home/frank/Qt_prj/camera-v4l2-ffmpeg/test.jpg");
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly))
+        return;
+
+    QNetworkRequest request(QUrl("http://192.168.1.123:8080/_file_server_upload/"));
+    QString bound="----WebKitFormBoundaryb62X3QGyAhb7Azg2"; //name of the boundary
+
+    //according to rfc 1867 we need to put this string here:
+   // QByteArray data(QString("--" + bound + "\r\n").toAscii());
+    QByteArray data("------WebKitFormBoundaryb62X3QGyAhb7Azg2\r\n");
+    data.append("Content-Disposition: form-data; name=\"file\"; filename=\"test.jpg\"\r\n");
+    data.append("Content-Type: image/jpeg\r\n\r\n");
+    data.append(file.readAll());   //let's read the file
+    data.append("\r\n");
+    //data.append("--" + bound + "--\r\n");  //closing boundary according to rfc 1867
+    data.append("------WebKitFormBoundaryb62X3QGyAhb7Azg2--\r\n");  //closing boundary according to rfc 1867
+
+    request.setRawHeader("Content-Type","multipart/form-data; boundary=----WebKitFormBoundaryb62X3QGyAhb7Azg2");
+    request.setHeader(QNetworkRequest::ContentLengthHeader,data.size());
+    connect(manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(replyFinished(QNetworkReply*)));
+    QNetworkReply *reply1 = manager->post(request,data); // perform POST request
+}
+void MainWindow::replyFinished(QNetworkReply *reply)
+{
+    if(reply->error())
+    {
+        qDebug() << "ERROR!";
+        qDebug() << reply->errorString();
+    }
+    else
+    {
+        qDebug() << reply->header(QNetworkRequest::ContentTypeHeader).toString();
+        qDebug() << reply->header(QNetworkRequest::LastModifiedHeader).toDateTime().toString();
+        qDebug() << reply->header(QNetworkRequest::ContentLengthHeader).toULongLong();
+        qDebug() << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+        qDebug() << reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toString();
+/*
+        QFile *file = new QFile("/home/frank/downloaded.txt");
+        if(file->open(QFile::Append))
+        {
+            file->write(reply->readAll());
+            file->flush();
+            file->close();
+        }
+        delete file;
+    }
+
+    reply->deleteLater();
+    */
+    }
 }

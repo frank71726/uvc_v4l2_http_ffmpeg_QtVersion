@@ -7,13 +7,12 @@
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT += network
 
 TARGET = camera
 TEMPLATE = app
 
 INCLUDEPATH += /usr/local/include
-
-#LIBS += -LC:/usr/local/lib -lavcodec -lavutil -lavformat -lavdevice -lavfilter -lswscale
 
 SOURCES += main.cpp\
         mainwindow.cpp \
