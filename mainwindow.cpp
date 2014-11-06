@@ -14,6 +14,8 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QRect>
+#include <QPainterPath>
+#include <QPainter>
 
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
@@ -56,7 +58,6 @@ MainWindow::MainWindow(QWidget *parent) :
   ,save_picture_flag(0)
 {
     ui->setupUi(this);
-
     vd = new video_device(tr("/dev/video0"));
     videoOutput = new QVideoOutput;
 
