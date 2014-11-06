@@ -38,6 +38,10 @@ private slots:
     void on_pushButton_released();
 
 
+    void on_login_released();
+
+    void on_FileSend_released();
+
 private:
     Ui::MainWindow *ui;
     QTimer *timer;

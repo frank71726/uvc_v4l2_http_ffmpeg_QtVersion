@@ -13,8 +13,10 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
@@ -36,7 +38,13 @@ public:
     QPushButton *SavePic;
     QPushButton *actionRecord;
     QLabel *label_3;
-    QPushButton *pushButton;
+    QPushButton *FileSend;
+    QGroupBox *groupBox;
+    QLabel *label_4;
+    QLabel *label_5;
+    QLineEdit *usr;
+    QLineEdit *pw;
+    QPushButton *login;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -54,9 +62,11 @@ public:
         label->setGeometry(QRect(5, 5, 640, 480));
         PlayBut = new QPushButton(centralWidget);
         PlayBut->setObjectName(QStringLiteral("PlayBut"));
+        PlayBut->setEnabled(false);
         PlayBut->setGeometry(QRect(10, 500, 311, 27));
         NameEdit = new QTextEdit(centralWidget);
         NameEdit->setObjectName(QStringLiteral("NameEdit"));
+        NameEdit->setEnabled(false);
         NameEdit->setGeometry(QRect(90, 530, 111, 31));
         label_2 = new QLabel(centralWidget);
         label_2->setObjectName(QStringLiteral("label_2"));
@@ -67,15 +77,43 @@ public:
         SavePic->setGeometry(QRect(210, 530, 111, 31));
         actionRecord = new QPushButton(centralWidget);
         actionRecord->setObjectName(QStringLiteral("actionRecord"));
+        actionRecord->setEnabled(false);
         actionRecord->setGeometry(QRect(10, 590, 311, 81));
         actionRecord->setIconSize(QSize(32, 32));
         label_3 = new QLabel(centralWidget);
         label_3->setObjectName(QStringLiteral("label_3"));
         label_3->setEnabled(true);
         label_3->setGeometry(QRect(650, 0, 640, 480));
-        pushButton = new QPushButton(centralWidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(330, 500, 321, 61));
+        FileSend = new QPushButton(centralWidget);
+        FileSend->setObjectName(QStringLiteral("FileSend"));
+        FileSend->setEnabled(false);
+        FileSend->setGeometry(QRect(330, 500, 321, 61));
+        groupBox = new QGroupBox(centralWidget);
+        groupBox->setObjectName(QStringLiteral("groupBox"));
+        groupBox->setGeometry(QRect(330, 570, 211, 121));
+        groupBox->setCheckable(false);
+        label_4 = new QLabel(groupBox);
+        label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setGeometry(QRect(10, 30, 68, 17));
+        label_5 = new QLabel(groupBox);
+        label_5->setObjectName(QStringLiteral("label_5"));
+        label_5->setGeometry(QRect(10, 60, 68, 17));
+        usr = new QLineEdit(groupBox);
+        usr->setObjectName(QStringLiteral("usr"));
+        usr->setGeometry(QRect(90, 30, 113, 27));
+        pw = new QLineEdit(groupBox);
+        pw->setObjectName(QStringLiteral("pw"));
+        pw->setGeometry(QRect(90, 60, 113, 27));
+        pw->setInputMethodHints(Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData);
+        pw->setEchoMode(QLineEdit::Password);
+        login = new QPushButton(groupBox);
+        login->setObjectName(QStringLiteral("login"));
+        login->setGeometry(QRect(10, 90, 191, 31));
+        QFont font;
+        font.setBold(true);
+        font.setUnderline(true);
+        font.setWeight(75);
+        login->setFont(font);
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
@@ -102,7 +140,11 @@ public:
         SavePic->setText(QApplication::translate("MainWindow", "Save Picture", 0));
         actionRecord->setText(QApplication::translate("MainWindow", "STOP Rec", 0));
         label_3->setText(QString());
-        pushButton->setText(QApplication::translate("MainWindow", "Send to file server", 0));
+        FileSend->setText(QApplication::translate("MainWindow", "Send to file server", 0));
+        groupBox->setTitle(QApplication::translate("MainWindow", "Login (not required)", 0));
+        label_4->setText(QApplication::translate("MainWindow", "UserName", 0));
+        label_5->setText(QApplication::translate("MainWindow", "Password", 0));
+        login->setText(QApplication::translate("MainWindow", "Login", 0));
     } // retranslateUi
 
 };

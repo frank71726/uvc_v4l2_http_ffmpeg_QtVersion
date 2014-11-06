@@ -23,6 +23,9 @@
 #include <QFile>
 #include <QDebug>
 
+#include <QSettings>
+#include <QVariant>
+
 #include <stdio.h>
 #include <string.h>
 #include <fcntl.h>
@@ -64,6 +67,16 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(recordingTimer, SIGNAL(timeout()), this, SLOT(blinkSlot()));
 
     ui->actionRecord->setIcon(QIcon(":/picture/rec.png"));
+
+    //login
+    QSettings set("cyh.ini",QSettings::IniFormat,this);
+    QVariant  usr = set.value("usr");
+    QVariant  pw  = set.value("pw");
+    if(!usr.isNull() && !pw.isNull())
+    {
+        ui->usr->setText(usr.toString());
+        ui->pw->setText(pw.toString());
+    }
 }
 
 MainWindow::~MainWindow()
@@ -152,7 +165,7 @@ void MainWindow::on_PlayBut_released()
     QString _start = "Start";
     QString _stop = "Stop";
 
-    if(count == 0)
+    if((count == 0))
     {
         ui->PlayBut->setText(_stop);
         timer->start(33);
@@ -244,7 +257,43 @@ void MainWindow::blinkSlot()
   //  blinkCount++;
 }
 
+/*
 void MainWindow::on_pushButton_released()
+{
+   //  download from server
+   // manager = new QNetworkAccessManager(this);
+   // connect(manager, SIGNAL(finished(QNetworkReply*)),
+   //             this, SLOT(replyFinished(QNetworkReply*)));
+   // manager->get(QNetworkRequest(QUrl("http://192.168.1.123:8080/_file_server_download/123.txt")));
+
+
+    manager = new QNetworkAccessManager(this);
+    QString path("/home/frank/Qt_prj/camera-v4l2-ffmpeg/test.jpg");
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly))
+        return;
+
+    QNetworkRequest request(QUrl("http://192.168.1.123:8080/_file_server_upload/"));
+    QString bound="----WebKitFormBoundaryb62X3QGyAhb7Azg2"; //name of the boundary
+
+    //according to rfc 1867 we need to put this string here:
+   // QByteArray data(QString("--" + bound + "\r\n").toAscii());
+    QByteArray data("------WebKitFormBoundaryb62X3QGyAhb7Azg2\r\n");
+    data.append("Content-Disposition: form-data; name=\"file\"; filename=\"test.jpg\"\r\n");
+    data.append("Content-Type: image/jpeg\r\n\r\n");
+    data.append(file.readAll());   //let's read the file
+    data.append("\r\n");
+    //data.append("--" + bound + "--\r\n");  //closing boundary according to rfc 1867
+    data.append("------WebKitFormBoundaryb62X3QGyAhb7Azg2--\r\n");  //closing boundary according to rfc 1867
+
+    request.setRawHeader("Content-Type","multipart/form-data; boundary=----WebKitFormBoundaryb62X3QGyAhb7Azg2");
+    request.setHeader(QNetworkRequest::ContentLengthHeader,data.size());
+    connect(manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(replyFinished(QNetworkReply*)));
+    QNetworkReply *reply1 = manager->post(request,data); // perform POST request
+}
+    */
+
+void MainWindow::on_FileSend_released()
 {
     /*  download from server
     manager = new QNetworkAccessManager(this);
@@ -277,6 +326,8 @@ void MainWindow::on_pushButton_released()
     connect(manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(replyFinished(QNetworkReply*)));
     QNetworkReply *reply1 = manager->post(request,data); // perform POST request
 }
+
+
 void MainWindow::replyFinished(QNetworkReply *reply)
 {
     if(reply->error())
@@ -306,3 +357,44 @@ void MainWindow::replyFinished(QNetworkReply *reply)
     */
     }
 }
+
+void MainWindow::on_login_released()
+{
+    QMessageBox msgbox;
+    QString  usr_login = ui->usr->text();
+    QString  pw_login  = ui->pw->text();
+    QString  usr_ok("rd2");
+    QString  pw_ok("123456");
+
+    if((usr_login == usr_ok) && (pw_login == pw_ok) && (ui->login->text() == "Login"))
+    {
+        qDebug() << "loging successfully!";
+        ui->PlayBut->setEnabled(true);
+        ui->actionRecord->setEnabled(true);
+        ui->FileSend->setEnabled(true);
+        ui->NameEdit->setEnabled(true);
+
+        ui->usr->clear();
+        ui->pw->clear();
+        ui->login->setText("Logout");
+    }
+    else if(ui->login->text() == "Logout")
+    {
+         qDebug() << "logout!";
+         ui->login->setText("Login");
+         ui->PlayBut->setEnabled(false);
+         ui->actionRecord->setEnabled(false);
+         ui->FileSend->setEnabled(false);
+         ui->NameEdit->setEnabled(false);
+
+         if(ui->PlayBut->text() == "Stop")
+            MainWindow::on_PlayBut_released();
+    }
+    else
+    {
+        msgbox.setIcon(QMessageBox::Critical);
+        msgbox.setText("loging fail");
+        msgbox.exec();
+    }
+}
+
