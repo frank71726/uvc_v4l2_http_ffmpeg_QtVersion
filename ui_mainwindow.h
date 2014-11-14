@@ -13,8 +13,11 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
@@ -30,13 +33,30 @@ class Ui_MainWindow
 public:
     QWidget *centralWidget;
     QLabel *label;
+    QGroupBox *Fun_list;
+    QGroupBox *loginout;
+    QLabel *label_4;
+    QLabel *label_5;
+    QLineEdit *usr;
+    QLineEdit *pw;
+    QPushButton *login;
+    QGroupBox *camera;
     QPushButton *PlayBut;
-    QTextEdit *NameEdit;
-    QLabel *label_2;
-    QPushButton *SavePic;
     QPushButton *actionRecord;
-    QLabel *label_3;
-    QPushButton *pushButton;
+    QTextEdit *NameEdit;
+    QPushButton *SavePic;
+    QLabel *label_2;
+    QGroupBox *groupBox_2;
+    QComboBox *video_sel;
+    QComboBox *size_sel;
+    QComboBox *VType;
+    QGroupBox *fservergroup;
+    QPushButton *FileSend;
+    QLineEdit *ip_addr;
+    QLineEdit *ip_port;
+    QLabel *label_6;
+    QLabel *label_7;
+    QPushButton *FileSelect;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -45,41 +65,111 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(660, 760);
+        MainWindow->resize(990, 600);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
         label->setEnabled(true);
-        label->setGeometry(QRect(5, 5, 640, 480));
-        PlayBut = new QPushButton(centralWidget);
+        label->setGeometry(QRect(10, 0, 640, 480));
+        Fun_list = new QGroupBox(centralWidget);
+        Fun_list->setObjectName(QStringLiteral("Fun_list"));
+        Fun_list->setGeometry(QRect(670, 0, 310, 510));
+        loginout = new QGroupBox(Fun_list);
+        loginout->setObjectName(QStringLiteral("loginout"));
+        loginout->setGeometry(QRect(0, 30, 321, 91));
+        loginout->setCheckable(false);
+        label_4 = new QLabel(loginout);
+        label_4->setObjectName(QStringLiteral("label_4"));
+        label_4->setGeometry(QRect(10, 30, 68, 17));
+        label_5 = new QLabel(loginout);
+        label_5->setObjectName(QStringLiteral("label_5"));
+        label_5->setGeometry(QRect(10, 60, 68, 17));
+        usr = new QLineEdit(loginout);
+        usr->setObjectName(QStringLiteral("usr"));
+        usr->setGeometry(QRect(80, 30, 113, 27));
+        pw = new QLineEdit(loginout);
+        pw->setObjectName(QStringLiteral("pw"));
+        pw->setGeometry(QRect(80, 60, 113, 27));
+        pw->setInputMethodHints(Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData);
+        pw->setEchoMode(QLineEdit::Password);
+        login = new QPushButton(loginout);
+        login->setObjectName(QStringLiteral("login"));
+        login->setGeometry(QRect(200, 30, 111, 51));
+        QFont font;
+        font.setBold(true);
+        font.setUnderline(true);
+        font.setWeight(75);
+        login->setFont(font);
+        camera = new QGroupBox(Fun_list);
+        camera->setObjectName(QStringLiteral("camera"));
+        camera->setGeometry(QRect(0, 240, 300, 191));
+        PlayBut = new QPushButton(camera);
         PlayBut->setObjectName(QStringLiteral("PlayBut"));
-        PlayBut->setGeometry(QRect(10, 500, 311, 27));
-        NameEdit = new QTextEdit(centralWidget);
+        PlayBut->setEnabled(false);
+        PlayBut->setGeometry(QRect(0, 20, 301, 27));
+        actionRecord = new QPushButton(camera);
+        actionRecord->setObjectName(QStringLiteral("actionRecord"));
+        actionRecord->setEnabled(false);
+        actionRecord->setGeometry(QRect(0, 100, 300, 81));
+        actionRecord->setIconSize(QSize(32, 32));
+        NameEdit = new QTextEdit(camera);
         NameEdit->setObjectName(QStringLiteral("NameEdit"));
-        NameEdit->setGeometry(QRect(90, 530, 111, 31));
-        label_2 = new QLabel(centralWidget);
-        label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setGeometry(QRect(10, 530, 81, 17));
-        SavePic = new QPushButton(centralWidget);
+        NameEdit->setEnabled(false);
+        NameEdit->setGeometry(QRect(80, 60, 111, 31));
+        SavePic = new QPushButton(camera);
         SavePic->setObjectName(QStringLiteral("SavePic"));
         SavePic->setEnabled(false);
-        SavePic->setGeometry(QRect(210, 530, 111, 31));
-        actionRecord = new QPushButton(centralWidget);
-        actionRecord->setObjectName(QStringLiteral("actionRecord"));
-        actionRecord->setGeometry(QRect(10, 590, 311, 81));
-        actionRecord->setIconSize(QSize(32, 32));
-        label_3 = new QLabel(centralWidget);
-        label_3->setObjectName(QStringLiteral("label_3"));
-        label_3->setEnabled(true);
-        label_3->setGeometry(QRect(650, 0, 640, 480));
-        pushButton = new QPushButton(centralWidget);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
-        pushButton->setGeometry(QRect(330, 500, 321, 61));
+        SavePic->setGeometry(QRect(200, 60, 100, 31));
+        label_2 = new QLabel(camera);
+        label_2->setObjectName(QStringLiteral("label_2"));
+        label_2->setGeometry(QRect(0, 60, 81, 17));
+        groupBox_2 = new QGroupBox(Fun_list);
+        groupBox_2->setObjectName(QStringLiteral("groupBox_2"));
+        groupBox_2->setGeometry(QRect(0, 139, 311, 91));
+        video_sel = new QComboBox(groupBox_2);
+        video_sel->setObjectName(QStringLiteral("video_sel"));
+        video_sel->setEnabled(false);
+        video_sel->setGeometry(QRect(10, 40, 85, 27));
+        video_sel->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+        size_sel = new QComboBox(groupBox_2);
+        size_sel->setObjectName(QStringLiteral("size_sel"));
+        size_sel->setEnabled(false);
+        size_sel->setGeometry(QRect(130, 40, 85, 27));
+        size_sel->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+        VType = new QComboBox(groupBox_2);
+        VType->setObjectName(QStringLiteral("VType"));
+        VType->setEnabled(false);
+        VType->setGeometry(QRect(220, 40, 85, 27));
+        fservergroup = new QGroupBox(Fun_list);
+        fservergroup->setObjectName(QStringLiteral("fservergroup"));
+        fservergroup->setGeometry(QRect(0, 430, 321, 81));
+        FileSend = new QPushButton(fservergroup);
+        FileSend->setObjectName(QStringLiteral("FileSend"));
+        FileSend->setEnabled(false);
+        FileSend->setGeometry(QRect(190, 50, 111, 25));
+        ip_addr = new QLineEdit(fservergroup);
+        ip_addr->setObjectName(QStringLiteral("ip_addr"));
+        ip_addr->setEnabled(false);
+        ip_addr->setGeometry(QRect(40, 20, 150, 25));
+        ip_port = new QLineEdit(fservergroup);
+        ip_port->setObjectName(QStringLiteral("ip_port"));
+        ip_port->setEnabled(false);
+        ip_port->setGeometry(QRect(40, 50, 150, 25));
+        label_6 = new QLabel(fservergroup);
+        label_6->setObjectName(QStringLiteral("label_6"));
+        label_6->setGeometry(QRect(0, 20, 31, 17));
+        label_7 = new QLabel(fservergroup);
+        label_7->setObjectName(QStringLiteral("label_7"));
+        label_7->setGeometry(QRect(0, 50, 41, 17));
+        FileSelect = new QPushButton(fservergroup);
+        FileSelect->setObjectName(QStringLiteral("FileSelect"));
+        FileSelect->setEnabled(false);
+        FileSelect->setGeometry(QRect(190, 20, 111, 25));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 660, 25));
+        menuBar->setGeometry(QRect(0, 0, 990, 25));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -97,12 +187,22 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
         label->setText(QString());
+        Fun_list->setTitle(QApplication::translate("MainWindow", "Function", 0));
+        loginout->setTitle(QApplication::translate("MainWindow", "Login", 0));
+        label_4->setText(QApplication::translate("MainWindow", "UserName", 0));
+        label_5->setText(QApplication::translate("MainWindow", "Password", 0));
+        login->setText(QApplication::translate("MainWindow", "Login", 0));
+        camera->setTitle(QApplication::translate("MainWindow", "Camera function", 0));
         PlayBut->setText(QApplication::translate("MainWindow", "Start", 0));
-        label_2->setText(QApplication::translate("MainWindow", "File name", 0));
+        actionRecord->setText(QApplication::translate("MainWindow", "START Rec", 0));
         SavePic->setText(QApplication::translate("MainWindow", "Save Picture", 0));
-        actionRecord->setText(QApplication::translate("MainWindow", "STOP Rec", 0));
-        label_3->setText(QString());
-        pushButton->setText(QApplication::translate("MainWindow", "Send to file server", 0));
+        label_2->setText(QApplication::translate("MainWindow", "File name", 0));
+        groupBox_2->setTitle(QApplication::translate("MainWindow", "Camera Select", 0));
+        fservergroup->setTitle(QApplication::translate("MainWindow", "File Server Setting", 0));
+        FileSend->setText(QApplication::translate("MainWindow", "Sending", 0));
+        label_6->setText(QApplication::translate("MainWindow", "IP", 0));
+        label_7->setText(QApplication::translate("MainWindow", "Port", 0));
+        FileSelect->setText(QApplication::translate("MainWindow", "select file", 0));
     } // retranslateUi
 
 };

@@ -24,7 +24,7 @@ class QVideoOutput : public QObject
 {
     Q_OBJECT
 public:
-    explicit QVideoOutput(QObject *parent = 0);
+    explicit QVideoOutput(int ff_width, int ff_heifgt,QObject *parent = 0 );
     ~QVideoOutput();
     bool openMediaFile(int width, int height, const QString &filename);
     AVStream * addStream(AVFormatContext *inFormatContext,
