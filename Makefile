@@ -465,7 +465,8 @@ compiler_rcc_make_all: qrc_picture.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_picture.cpp
 qrc_picture.cpp: picture.qrc \
-		picture/rec.png
+		picture/rec.png \
+		picture/start.png
 	/home/frank/Qt/5.3/gcc_64/bin/rcc -name picture picture.qrc -o qrc_picture.cpp
 
 compiler_moc_header_make_all: moc_mainwindow.cpp moc_video_device.cpp moc_qvideooutput.cpp
@@ -610,6 +611,35 @@ moc_mainwindow.cpp: ../../Qt/5.3/gcc_64/include/QtWidgets/QMainWindow \
 		/usr/local/include/libavfilter/avfilter.h \
 		/usr/local/include/libavfilter/version.h \
 		/usr/local/include/libswscale/swscale.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/QNetworkAccessManager \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/QSslConfiguration \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qsslconfiguration.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qsslsocket.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qtcpsocket.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qabstractsocket.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qsslerror.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qsslcertificate.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qcryptographichash.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qssl.h \
+		../../Qt/5.3/gcc_64/include/QtCore/QFlags \
+		../../Qt/5.3/gcc_64/include/QtNetwork/QNetworkRequest \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		../../Qt/5.3/gcc_64/include/QtCore/QSharedDataPointer \
+		../../Qt/5.3/gcc_64/include/QtCore/QString \
+		../../Qt/5.3/gcc_64/include/QtCore/QUrl \
+		../../Qt/5.3/gcc_64/include/QtCore/QVariant \
+		../../Qt/5.3/gcc_64/include/QtNetwork/QNetworkReply \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qnetworkreply.h \
+		../../Qt/5.3/gcc_64/include/QtCore/QIODevice \
+		../../Qt/5.3/gcc_64/include/QtCore/QDateTime \
+		../../Qt/5.3/gcc_64/include/QtCore/QDebug \
+		../../Qt/5.3/gcc_64/include/QtGui/QPainterPath \
+		../../Qt/5.3/gcc_64/include/QtGui/QPainter \
+		../../Qt/5.3/gcc_64/include/QtGui/qpainter.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qtextoption.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qpen.h \
 		mainwindow.h
 	/home/frank/Qt/5.3/gcc_64/bin/moc $(DEFINES) -I/home/frank/Qt/5.3/gcc_64/mkspecs/linux-g++ -I/home/frank/Qt_prj/camera-v4l2-ffmpeg -I/usr/local/include -I/home/frank/Qt/5.3/gcc_64/include -I/home/frank/Qt/5.3/gcc_64/include/QtWidgets -I/home/frank/Qt/5.3/gcc_64/include/QtNetwork -I/home/frank/Qt/5.3/gcc_64/include/QtGui -I/home/frank/Qt/5.3/gcc_64/include/QtCore mainwindow.h -o moc_mainwindow.cpp
 
@@ -929,6 +959,35 @@ main.o: main.cpp mainwindow.h \
 		/usr/local/include/libavfilter/avfilter.h \
 		/usr/local/include/libavfilter/version.h \
 		/usr/local/include/libswscale/swscale.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/QNetworkAccessManager \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/QSslConfiguration \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qsslconfiguration.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qsslsocket.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qtcpsocket.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qabstractsocket.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qsslerror.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qsslcertificate.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qcryptographichash.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qssl.h \
+		../../Qt/5.3/gcc_64/include/QtCore/QFlags \
+		../../Qt/5.3/gcc_64/include/QtNetwork/QNetworkRequest \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		../../Qt/5.3/gcc_64/include/QtCore/QSharedDataPointer \
+		../../Qt/5.3/gcc_64/include/QtCore/QString \
+		../../Qt/5.3/gcc_64/include/QtCore/QUrl \
+		../../Qt/5.3/gcc_64/include/QtCore/QVariant \
+		../../Qt/5.3/gcc_64/include/QtNetwork/QNetworkReply \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qnetworkreply.h \
+		../../Qt/5.3/gcc_64/include/QtCore/QIODevice \
+		../../Qt/5.3/gcc_64/include/QtCore/QDateTime \
+		../../Qt/5.3/gcc_64/include/QtCore/QDebug \
+		../../Qt/5.3/gcc_64/include/QtGui/QPainterPath \
+		../../Qt/5.3/gcc_64/include/QtGui/QPainter \
+		../../Qt/5.3/gcc_64/include/QtGui/qpainter.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qtextoption.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qpen.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/QApplication \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qapplication.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qcoreapplication.h \
@@ -1078,8 +1137,36 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		/usr/local/include/libavfilter/avfilter.h \
 		/usr/local/include/libavfilter/version.h \
 		/usr/local/include/libswscale/swscale.h \
-		ui_mainwindow.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/QNetworkAccessManager \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/QSslConfiguration \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qsslconfiguration.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qsslsocket.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qtcpsocket.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qabstractsocket.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qsslerror.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qsslcertificate.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qcryptographichash.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qdatetime.h \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qssl.h \
+		../../Qt/5.3/gcc_64/include/QtCore/QFlags \
+		../../Qt/5.3/gcc_64/include/QtNetwork/QNetworkRequest \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qnetworkrequest.h \
+		../../Qt/5.3/gcc_64/include/QtCore/QSharedDataPointer \
+		../../Qt/5.3/gcc_64/include/QtCore/QString \
+		../../Qt/5.3/gcc_64/include/QtCore/QUrl \
 		../../Qt/5.3/gcc_64/include/QtCore/QVariant \
+		../../Qt/5.3/gcc_64/include/QtNetwork/QNetworkReply \
+		../../Qt/5.3/gcc_64/include/QtNetwork/qnetworkreply.h \
+		../../Qt/5.3/gcc_64/include/QtCore/QIODevice \
+		../../Qt/5.3/gcc_64/include/QtCore/QDateTime \
+		../../Qt/5.3/gcc_64/include/QtCore/QDebug \
+		../../Qt/5.3/gcc_64/include/QtGui/QPainterPath \
+		../../Qt/5.3/gcc_64/include/QtGui/QPainter \
+		../../Qt/5.3/gcc_64/include/QtGui/qpainter.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qtextoption.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qpen.h \
+		ui_mainwindow.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/QAction \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qaction.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qactiongroup.h \
@@ -1092,11 +1179,13 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.3/gcc_64/include/QtGui/qinputmethod.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/QButtonGroup \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qbuttongroup.h \
+		../../Qt/5.3/gcc_64/include/QtWidgets/QGroupBox \
+		../../Qt/5.3/gcc_64/include/QtWidgets/qgroupbox.h \
+		../../Qt/5.3/gcc_64/include/QtWidgets/qframe.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/QHeaderView \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qheaderview.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qabstractitemview.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		../../Qt/5.3/gcc_64/include/QtWidgets/qframe.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qabstractitemmodel.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qitemselectionmodel.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
@@ -1111,6 +1200,10 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qrubberband.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/QLabel \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qlabel.h \
+		../../Qt/5.3/gcc_64/include/QtWidgets/QLineEdit \
+		../../Qt/5.3/gcc_64/include/QtWidgets/qlineedit.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qtextcursor.h \
+		../../Qt/5.3/gcc_64/include/QtGui/qtextformat.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/QMenuBar \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qmenubar.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qmenu.h \
@@ -1122,10 +1215,6 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/QTextEdit \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qtextedit.h \
 		../../Qt/5.3/gcc_64/include/QtGui/qtextdocument.h \
-		../../Qt/5.3/gcc_64/include/QtGui/qtextoption.h \
-		../../Qt/5.3/gcc_64/include/QtGui/qtextcursor.h \
-		../../Qt/5.3/gcc_64/include/QtGui/qtextformat.h \
-		../../Qt/5.3/gcc_64/include/QtGui/qpen.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/QToolBar \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qtoolbar.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/QWidget \
@@ -1133,12 +1222,8 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qtimer.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qbasictimer.h \
 		../../Qt/5.3/gcc_64/include/QtGui/QPixmap \
-		../../Qt/5.3/gcc_64/include/QtGui/QPainter \
-		../../Qt/5.3/gcc_64/include/QtGui/qpainter.h \
 		../../Qt/5.3/gcc_64/include/QtCore/QThread \
 		../../Qt/5.3/gcc_64/include/QtCore/qthread.h \
-		../../Qt/5.3/gcc_64/include/QtCore/QString \
-		../../Qt/5.3/gcc_64/include/QtCore/QDebug \
 		../../Qt/5.3/gcc_64/include/QtGui/QtGui \
 		../../Qt/5.3/gcc_64/include/QtGui/QtGuiDepends \
 		../../Qt/5.3/gcc_64/include/QtCore/QtCore \
@@ -1154,7 +1239,6 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qtextcodec.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qendian.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qlibraryinfo.h \
-		../../Qt/5.3/gcc_64/include/QtCore/qdatetime.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qbuffer.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qdir.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qfileinfo.h \
@@ -1228,7 +1312,6 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qcollator.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qcommandlineoption.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qcommandlineparser.h \
-		../../Qt/5.3/gcc_64/include/QtCore/qcryptographichash.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qelapsedtimer.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qlinkedlist.h \
 		../../Qt/5.3/gcc_64/include/QtCore/qmessageauthenticationcode.h \
@@ -1291,7 +1374,6 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.3/gcc_64/include/QtGui/qopenglfunctions.h \
 		../../Qt/5.3/gcc_64/include/QtGui/qopenglpaintdevice.h \
 		../../Qt/5.3/gcc_64/include/QtGui/qopenglpixeltransferoptions.h \
-		../../Qt/5.3/gcc_64/include/QtCore/QSharedDataPointer \
 		../../Qt/5.3/gcc_64/include/QtGui/qopenglshaderprogram.h \
 		../../Qt/5.3/gcc_64/include/QtGui/qopengltexture.h \
 		../../Qt/5.3/gcc_64/include/QtGui/qopengltimerquery.h \
@@ -1321,17 +1403,7 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qdialog.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/QFileDialog \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qfiledialog.h \
-		../../Qt/5.3/gcc_64/include/QtNetwork/QNetworkAccessManager \
-		../../Qt/5.3/gcc_64/include/QtNetwork/qnetworkaccessmanager.h \
-		../../Qt/5.3/gcc_64/include/QtNetwork/QSslConfiguration \
-		../../Qt/5.3/gcc_64/include/QtNetwork/qsslconfiguration.h \
-		../../Qt/5.3/gcc_64/include/QtNetwork/qsslsocket.h \
-		../../Qt/5.3/gcc_64/include/QtNetwork/qtcpsocket.h \
-		../../Qt/5.3/gcc_64/include/QtNetwork/qabstractsocket.h \
-		../../Qt/5.3/gcc_64/include/QtNetwork/qsslerror.h \
-		../../Qt/5.3/gcc_64/include/QtNetwork/qsslcertificate.h \
-		../../Qt/5.3/gcc_64/include/QtNetwork/qssl.h \
-		../../Qt/5.3/gcc_64/include/QtCore/QFlags \
+		../../Qt/5.3/gcc_64/include/QtCore/QSettings \
 		v4l2grab.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
 

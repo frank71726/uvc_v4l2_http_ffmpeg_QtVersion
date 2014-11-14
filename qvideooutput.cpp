@@ -16,7 +16,7 @@ extern "C" {
 
 }
 
-QVideoOutput::QVideoOutput(QObject *parent) :
+QVideoOutput::QVideoOutput(int ff_width, int ff_heifgt, QObject *parent) :
     QObject(parent)
   , swsContext(0x0)
   , formatContext(0x0)
@@ -27,14 +27,14 @@ QVideoOutput::QVideoOutput(QObject *parent) :
   , swsFlags(SWS_BICUBIC)
   , streamPixFmt(AV_PIX_FMT_YUV420P) // default pix_fmt
   , streamFrameRate(30)              // 30 images/s
-  , width(640)
-  , height(480)
   {
      // Init FFmpeg
      av_register_all();
      avcodec_register_all();
      avdevice_register_all();
 
+     this->width = ff_width;
+     this->height = ff_heifgt;
      ffmpeg_initiate();
   }
 
@@ -111,11 +111,15 @@ int QVideoOutput::ffmpeg_yuyv_2_rgb888(const void *p, int size)
 ////////////////////////////////////////////////////////////////////////////////
 QVideoOutput::~QVideoOutput()
 {
+
     //Free the RGB image
     av_free(yuv_buffer);
     av_free(buffer);
-    av_free(pFrameRGB->data[0]);
-    av_free(pFrame->data[0]);
+    qDebug() << "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk";
+    av_frame_free(&pFrameRGB);
+    av_frame_free(&pFrame);
+   // av_free(pFrameRGB->data[0]);
+   // av_free(pFrame->data[0]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
