@@ -37,8 +37,8 @@ typedef struct tagRGBQUAD{
      BYTE	rgbReserved;
 }RGBQUAD;
 
-#define  IMAGEWIDTH    640
-#define  IMAGEHEIGHT   480
+//#define  IMAGEWIDTH    640
+//#define  IMAGEHEIGHT   480
 //unsigned char frame_buffer[IMAGEWIDTH*IMAGEHEIGHT*3];
 
 #endif //__V4LGRAB_H___

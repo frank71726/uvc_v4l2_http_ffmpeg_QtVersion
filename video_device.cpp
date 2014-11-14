@@ -26,7 +26,7 @@
 #include "video_device.h"
 #include "v4l2grab.h"
 
-#define FILE_VIDEO 	"/dev/video0"
+//#define FILE_VIDEO 	"/dev/video0"
 
 static int verbose = 1;
 #define pr_debug(fmt, arg...) \
@@ -34,7 +34,7 @@ static int verbose = 1;
 
 #define CLEAR(x) memset(&(x), 0, sizeof(x))
 
-video_device::video_device(QString devn)
+video_device::video_device(QString devn, int camera_width, int camera_height)
 {
     int ret;
 
@@ -42,8 +42,8 @@ video_device::video_device(QString devn)
     char *c_str = ba.data();
 
     this->dev_name = c_str;
-    this->image_width = IMAGEWIDTH;
-    this->image_hight = IMAGEHEIGHT;
+    this->image_width = camera_width;
+    this->image_hight = camera_height;
     this->nbufs = 6;
     pixelformat = V4L2_PIX_FMT_YUYV;
 
@@ -77,7 +77,7 @@ video_device::~video_device()
     //uninit_device
     for (i = 0; i < nbufs; i++)
     {
-        if (-1 == munmap(mem0[i], buf_byteused))
+        if (-1 == munmap(mem0[i],  buf_byteused))
         {
             errno_exit("munmap");
         }
@@ -87,6 +87,7 @@ video_device::~video_device()
     {
         errno_exit("close");
     }
+    qDebug("stoping video streaming ----------------------------------~video_device()");
 }
 
 int video_device::camera_v4l2_setting(int *dev, unsigned int width, unsigned int height, unsigned int pixelformat, const char *camera_dev, int nbufs, void **mem0)
@@ -192,7 +193,8 @@ int video_device::camera_v4l2_setting(int *dev, unsigned int width, unsigned int
             return -1;
         }
         qDebug("Buffer %u mapped at address %p.\n", i, mem0[i]);
-        buf_byteused = buf0.bytesused;
+        buf_byteused = buf0.length;
+        qDebug("buf_byteused = %d -----------------------", buf_byteused);
     }
 
     // Queue the buffer

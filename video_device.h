@@ -11,7 +11,8 @@ class video_device : public QObject
 {
     Q_OBJECT
 public:
-    explicit video_device(QString dev_name);
+
+    explicit video_device(QString dev_name, int camera_width, int camera_height);
     int get_frame(unsigned char **yuv_buffer_pointer, size_t *len);
     int unget_frame();
 //    int yuyv_2_rgb888(const void *p, int size, unsigned char *frame_buffer);

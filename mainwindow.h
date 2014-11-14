@@ -12,6 +12,8 @@
 #include <QDateTime>
 #include <QFile>
 #include <QDebug>
+#include <QPainterPath>
+#include <QPainter>
 namespace Ui {
 class MainWindow;
 }
@@ -26,6 +28,19 @@ public:
     ~MainWindow();
     QVideoOutput *videoOutput;
 
+/*
+    void paintEvent(QPaintEvent * event)
+    {
+        QMainWindow::paintEvent(event);
+
+        QPainter p(this);
+        p.setPen(QPen(Qt::red, 5));
+        p.drawLine(650,140,995,140);
+        p.drawLine(650,335,995,335);
+        p.drawLine(650,430,995,430);
+        qDebug() << "draw line";
+    }
+*/
 public slots:
     void replyFinished (QNetworkReply *reply);
 
@@ -35,12 +50,10 @@ private slots:
     void on_SavePic_released();
     void on_actionRecord_released();
     void blinkSlot();
-    void on_pushButton_released();
-
-
+ //   void on_pushButton_released();
     void on_login_released();
-
     void on_FileSend_released();
+    void on_FileSelect_released();
 
 private:
     Ui::MainWindow *ui;
@@ -54,6 +67,7 @@ private:
     QTemporaryFile *templateFile;
 
     QNetworkAccessManager *manager;
+    QString fileName;
 };
 
 #endif // MAINWINDOW_H

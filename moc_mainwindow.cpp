@@ -39,15 +39,15 @@ QT_MOC_LITERAL(6, 67, 6),
 QT_MOC_LITERAL(7, 74, 19),
 QT_MOC_LITERAL(8, 94, 24),
 QT_MOC_LITERAL(9, 119, 9),
-QT_MOC_LITERAL(10, 129, 22),
-QT_MOC_LITERAL(11, 152, 17),
-QT_MOC_LITERAL(12, 170, 20)
+QT_MOC_LITERAL(10, 129, 17),
+QT_MOC_LITERAL(11, 147, 20),
+QT_MOC_LITERAL(12, 168, 22)
     },
     "MainWindow\0replyFinished\0\0QNetworkReply*\0"
     "reply\0on_PlayBut_released\0update\0"
     "on_SavePic_released\0on_actionRecord_released\0"
-    "blinkSlot\0on_pushButton_released\0"
-    "on_login_released\0on_FileSend_released"
+    "blinkSlot\0on_login_released\0"
+    "on_FileSend_released\0on_FileSelect_released"
 };
 #undef QT_MOC_LITERAL
 
@@ -100,9 +100,9 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 3: _t->on_SavePic_released(); break;
         case 4: _t->on_actionRecord_released(); break;
         case 5: _t->blinkSlot(); break;
-        //case 6: _t->on_pushButton_released(); break;
-        case 7: _t->on_login_released(); break;
-        case 8: _t->on_FileSend_released(); break;
+        case 6: _t->on_login_released(); break;
+        case 7: _t->on_FileSend_released(); break;
+        case 8: _t->on_FileSelect_released(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
