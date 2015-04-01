@@ -27,5 +27,5 @@
 ![ex3](explain_pict/ex3.png "http_file_server")
 
 ## When it is running ,it looks like below.
-![ex2](explain_pict/ex3.png "http_file_server_running")
+![ex2](explain_pict/ex2.png "http_file_server_running")
 
