@@ -1,7 +1,6 @@
 #include <QDebug>
 #include <QFile>
 #include <QMessageBox>
-
 #include "stdio.h"
 #include "stddef.h"
 #include "qvideooutput.h"
@@ -13,7 +12,6 @@ extern "C" {
 #include "/usr/local/include/libavdevice/avdevice.h"
 #include "/usr/local/include/libavfilter/avfilter.h"
 #include "/usr/local/include/libswscale/swscale.h"
-
 }
 
 QVideoOutput::QVideoOutput(int ff_width, int ff_heifgt, QObject *parent) :
@@ -98,11 +96,7 @@ int QVideoOutput::ffmpeg_yuyv_2_rgb888(const void *p, int size)
 {
     int ret;
 
- //   ret = avpicture_fill((AVPicture *)pFrame,(const u_int8_t *) p, AV_PIX_FMT_YUYV422, width, height);
- //   if(ret < 0)
- //       return -1;
     memcpy(pFrame->data[0],(const u_int8_t *) p, size);
-   // qDebug("-------------%d - yuv422 avpicture_fill successful!",ret);
     sws_scale(img_convert_ctx, (const uint8_t * const *)pFrame->data, pFrame->linesize, 0, height, pFrameRGB->data, pFrameRGB->linesize);
 }
 ////////////////////////////////////////////////////////////////////////////////
@@ -118,8 +112,6 @@ QVideoOutput::~QVideoOutput()
     qDebug() << "kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk";
     av_frame_free(&pFrameRGB);
     av_frame_free(&pFrame);
-   // av_free(pFrameRGB->data[0]);
-   // av_free(pFrame->data[0]);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

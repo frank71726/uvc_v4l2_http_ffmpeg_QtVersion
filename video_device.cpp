@@ -458,7 +458,7 @@ int video_device::video_reqbufs(int dev, int nbufs)
         qDebug("Insufficient buffer memory on %d\n", dev);
         return -1;
     }
- //   nbufs = rb.count;
+
     return 0;
 }
 int video_device::video_enable(int dev, int enable)
@@ -527,61 +527,3 @@ int video_device::unget_frame()
     }
     return -1;
 }
-/*
-int video_device::yuyv_2_rgb888(const void *p, int size, unsigned char *frame_buffer)
-{
-    int i,j;
-    unsigned char y1,y2,u,v;
-    int r1,g1,b1,r2,g2,b2;
-    const char *pointer;
-    size++;
-
-    pointer = (const char *)p;
-
-    for(i=0;i<480;i++)
-    {
-        for(j=0;j<320;j++)
-        {
-            y1 = *( pointer + (i*320+j)*4);
-            u  = *( pointer + (i*320+j)*4 + 1);
-            y2 = *( pointer + (i*320+j)*4 + 2);
-            v  = *( pointer + (i*320+j)*4 + 3);
-
-            r1 = y1 + 1.042*(v-128);
-            g1 = y1 - 0.34414*(u-128) - 0.71414*(v-128);
-            b1 = y1 + 1.772*(u-128);
-
-            r2 = y2 + 1.042*(v-128);
-            g2 = y2 - 0.34414*(u-128) - 0.71414*(v-128);
-            b2 = y2 + 1.772*(u-128);
-
-            if(r1>255)                r1 = 255;
-            else if(r1<0)             r1 = 0;
-
-            if(b1>255)                b1 = 255;
-            else if(b1<0)             b1 = 0;
-
-            if(g1>255)                g1 = 255;
-            else if(g1<0)             g1 = 0;
-
-            if(r2>255)                r2 = 255;
-            else if(r2<0)             r2 = 0;
-
-            if(b2>255)                b2 = 255;
-            else if(b2<0)             b2 = 0;
-
-            if(g2>255)                g2 = 255;
-            else if(g2<0)             g2 = 0;
-
-            *(frame_buffer + ((480-1-i)*320+j)*6    ) = (unsigned char)b1;
-            *(frame_buffer + ((480-1-i)*320+j)*6 + 1) = (unsigned char)g1;
-            *(frame_buffer + ((480-1-i)*320+j)*6 + 2) = (unsigned char)r1;
-            *(frame_buffer + ((480-1-i)*320+j)*6 + 3) = (unsigned char)b2;
-            *(frame_buffer + ((480-1-i)*320+j)*6 + 4) = (unsigned char)g2;
-            *(frame_buffer + ((480-1-i)*320+j)*6 + 5) = (unsigned char)r2;
-        }
-    }
-
-    return 0;
-}
-*/

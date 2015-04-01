@@ -68,6 +68,7 @@ private:
 
     QNetworkAccessManager *manager;
     QString fileName;
+    QRect frame_rect;
 };
 
 #endif // MAINWINDOW_H

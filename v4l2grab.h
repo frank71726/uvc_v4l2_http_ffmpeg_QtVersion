@@ -15,7 +15,6 @@ typedef struct tagBITMAPFILEHEADER{
 
 }BITMAPFILEHEADER;
 
- 
 typedef struct tagBITMAPINFOHEADER{
      DWORD    biSize;                // must be 0x28
      DWORD    biWidth;               //
@@ -36,9 +35,5 @@ typedef struct tagRGBQUAD{
      BYTE	rgbRed;
      BYTE	rgbReserved;
 }RGBQUAD;
-
-//#define  IMAGEWIDTH    640
-//#define  IMAGEHEIGHT   480
-//unsigned char frame_buffer[IMAGEWIDTH*IMAGEHEIGHT*3];
 
 #endif //__V4LGRAB_H___

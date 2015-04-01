@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
 #include <QTimer>
 #include <QPixmap>
 #include <QImage>
@@ -16,7 +15,6 @@
 #include <QRect>
 #include <QPainterPath>
 #include <QPainter>
-
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -24,12 +22,9 @@
 #include <QDateTime>
 #include <QFile>
 #include <QDebug>
-
 #include <QSettings>
 #include <QVariant>
-
 #include <QComboBox>
-
 #include <stdio.h>
 #include <string.h>
 #include <fcntl.h>
@@ -49,7 +44,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <assert.h>
-
 #include "video_device.h"
 #include "v4l2grab.h"
 #include "qvideooutput.h"
@@ -68,9 +62,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->size_sel->addItem("1280x720");
     ui->VType->addItem("MJPG");
     ui->VType->addItem("H264");
-
-
-    //videoOutput = new QVideoOutput;
 
     timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
@@ -200,6 +191,7 @@ void MainWindow::on_PlayBut_released()
             ui->Fun_list->setGeometry(670,0,310,510);
             vd = new video_device(ui->video_sel->currentText(), 640, 480);
             videoOutput = new QVideoOutput(640, 480);
+            frame_rect.setRect(0,0,640,480);
         }
         else if(ui->size_sel->currentText() == "1280x720")
         {
@@ -208,6 +200,7 @@ void MainWindow::on_PlayBut_released()
 
             vd = new video_device(ui->video_sel->currentText(), 1280, 720);
             videoOutput = new QVideoOutput(1280, 720);
+            frame_rect.setRect(0,0,1280,720);
         }
         else
             qDebug() << "video_device constructor fail";
@@ -272,14 +265,15 @@ void MainWindow::on_actionRecord_released()
     }
     else if((count == 1) && (recording == 1))
     {
+        recordingTimer->stop();
         count = 0;
         videoOutput->closeMediaFile();
         ui->actionRecord->setText("Record Video");
-        recordingTimer->stop();
+
         recording = false;
         QString fileName = QFileDialog::getSaveFileName(this,
                                                       tr("Save File"),
-                                                      QString(),
+                                                      "",
                                                       tr("Videos (*.avi)"));
         fileName.append(".avi");
         if (fileName.isNull() == false)
@@ -297,18 +291,14 @@ void MainWindow::on_actionRecord_released()
 void MainWindow::blinkSlot()
 {
     static int i=0;
-    QRect r1(0,0,640,480);
 
-    qDebug("fuck  %d",i);
+    qDebug("frame  %d",i);
     i++;
 
-    //QPixmap pixmap(rect().size());
-    QPixmap pixmap(r1.size());
+    QPixmap pixmap(frame_rect.size());
     // Get a screen shot
-    //render(&pixmap, QPoint(), QRegion(rect()));
-    render(&pixmap, QPoint(), QRegion(r1));
+    render(&pixmap, QPoint(), QRegion(frame_rect));
     videoOutput->newFrame(pixmap.toImage());
-  //  blinkCount++;
 }
 
 /*
@@ -421,7 +411,6 @@ void MainWindow::on_FileSend_released()
     request.setHeader(QNetworkRequest::ContentLengthHeader,data.size());
     connect(manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(replyFinished(QNetworkReply*)));
     QNetworkReply *reply1 = manager->post(request,data); // perform POST request
-
 }
 
 

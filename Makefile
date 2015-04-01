@@ -1179,15 +1179,8 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.3/gcc_64/include/QtGui/qinputmethod.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/QButtonGroup \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qbuttongroup.h \
-		../../Qt/5.3/gcc_64/include/QtWidgets/QGroupBox \
-		../../Qt/5.3/gcc_64/include/QtWidgets/qgroupbox.h \
-		../../Qt/5.3/gcc_64/include/QtWidgets/qframe.h \
-		../../Qt/5.3/gcc_64/include/QtWidgets/QHeaderView \
-		../../Qt/5.3/gcc_64/include/QtWidgets/qheaderview.h \
-		../../Qt/5.3/gcc_64/include/QtWidgets/qabstractitemview.h \
-		../../Qt/5.3/gcc_64/include/QtWidgets/qabstractscrollarea.h \
-		../../Qt/5.3/gcc_64/include/QtCore/qabstractitemmodel.h \
-		../../Qt/5.3/gcc_64/include/QtCore/qitemselectionmodel.h \
+		../../Qt/5.3/gcc_64/include/QtWidgets/QComboBox \
+		../../Qt/5.3/gcc_64/include/QtWidgets/qcombobox.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qstyleoption.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qabstractspinbox.h \
@@ -1198,6 +1191,15 @@ mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qstyle.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qtabbar.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qrubberband.h \
+		../../Qt/5.3/gcc_64/include/QtWidgets/qframe.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qabstractitemmodel.h \
+		../../Qt/5.3/gcc_64/include/QtWidgets/QGroupBox \
+		../../Qt/5.3/gcc_64/include/QtWidgets/qgroupbox.h \
+		../../Qt/5.3/gcc_64/include/QtWidgets/QHeaderView \
+		../../Qt/5.3/gcc_64/include/QtWidgets/qheaderview.h \
+		../../Qt/5.3/gcc_64/include/QtWidgets/qabstractitemview.h \
+		../../Qt/5.3/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		../../Qt/5.3/gcc_64/include/QtCore/qitemselectionmodel.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/QLabel \
 		../../Qt/5.3/gcc_64/include/QtWidgets/qlabel.h \
 		../../Qt/5.3/gcc_64/include/QtWidgets/QLineEdit \
