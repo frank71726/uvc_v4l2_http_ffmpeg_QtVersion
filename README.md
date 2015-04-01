@@ -7,7 +7,7 @@
 
 #Please follow the steps listed below.
 
-![ex1](/home/frank/Qt_prj/uvc-record-upload-qt/explain_pict/ex1.png "app_picture")
+![ex1](explain_pict/ex1.png "app_picture")
 
 1.  Input user name (default: 1)
 2.  Input password (default: 1)
@@ -24,8 +24,8 @@
 13. Press button to send file
 
 ## You can use http file server which is like below.
-![ex3](/home/frank/Qt_prj/uvc-record-upload-qt/explain_pict/ex3.png "http_file_server")
+![ex3](explain_pict/ex3.png "http_file_server")
 
 ## When it is running ,it looks like below.
-![ex2](/home/frank/Qt_prj/uvc-record-upload-qt/explain_pict/ex3.png "http_file_server_running")
+![ex2](explain_pict/ex3.png "http_file_server_running")
 
